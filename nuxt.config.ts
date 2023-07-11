@@ -6,7 +6,11 @@ export default defineNuxtConfig({
   ssr: true,
   builder: 'vite',
   modules: ['@pinia/nuxt'],
-  css: ['primevue/resources/themes/lara-light-blue/theme.css', 'primevue/resources/primevue.css'],
+  css: [
+    'primevue/resources/themes/lara-light-blue/theme.css',
+    'primevue/resources/primevue.css',
+    './assets/style/main.scss'
+  ],
   build: {
     transpile: ['primevue']
   },
