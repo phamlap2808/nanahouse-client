@@ -4,5 +4,5 @@
 </script>
 
 <template>
-  <Button>{{ systemStore.getLoadingScreen }}</Button>
+  <div>test</div>
 </template>

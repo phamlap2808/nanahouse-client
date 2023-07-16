@@ -28,7 +28,6 @@
     "lodash-es": "^4.17.21",
     "nuxt": "^3.6.2",
     "prettier": "^3.0.0",
-    "primeflex": "^3.3.1",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
     "typescript": "^5.1.6"
@@ -37,7 +36,7 @@
     "@pinia/nuxt": "^0.4.11",
     "crypto-js": "^4.1.1",
     "pinia": "^2.1.4",
-    "primevue": "^3.29.2",
-    "shvl": "^3.0.0"
+    "shvl": "^3.0.0",
+    "vuetify": "^3.3.8"
   }
 }

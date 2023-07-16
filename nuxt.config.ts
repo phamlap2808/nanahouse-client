@@ -6,18 +6,14 @@ export default defineNuxtConfig({
   ssr: true,
   builder: 'vite',
   modules: ['@pinia/nuxt'],
-  css: [
-    'primevue/resources/themes/lara-light-blue/theme.css',
-    'primevue/resources/primevue.css',
-    '/node_modules/primeflex/primeflex.css'
-  ],
+  css: ['vuetify/lib/styles/main.sass', 'assets/style/main.scss'],
+  build: {
+    transpile: ['vuetify']
+  },
   app: {
     // global transition
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' }
-  },
-  build: {
-    transpile: ['primevue']
   },
   vite: {
     build: {
@@ -25,7 +21,8 @@ export default defineNuxtConfig({
     },
     define: {
       __VUE_I18N_FULL_INSTALL__: true,
-      __VUE_I18N_LEGACY_API__: false
+      __VUE_I18N_LEGACY_API__: false,
+      'process.env.DEBUG': false
     }
   },
   alias: {
