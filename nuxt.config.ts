@@ -9,8 +9,13 @@ export default defineNuxtConfig({
   css: [
     'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.css',
-    './assets/style/main.scss'
+    '/node_modules/primeflex/primeflex.css'
   ],
+  app: {
+    // global transition
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'layout', mode: 'out-in' }
+  },
   build: {
     transpile: ['primevue']
   },
