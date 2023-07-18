@@ -36,6 +36,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "@types/crypto-js": "^4.1.1",
+    "@vuepic/vue-datepicker": "^5.4.0",
     "crypto-js": "^4.1.1",
     "dayjs-nuxt": "^1.1.2",
     "pinia": "^2.1.4",

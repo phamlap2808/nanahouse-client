@@ -41,6 +41,7 @@
                 class="mt-4"
                 :maxlength="225"
                 label="Mật Khẩu"
+                type="password"
                 variant="outlined" />
             </v-card-item>
             <v-card-text>
