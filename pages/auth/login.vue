@@ -14,7 +14,9 @@
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    console.log('111111111111111')
+    console.log('111111111111111', $endpoint.login)
+    const res = await $axios.post($endpoint.login, formData)
+    console.log('222222222222222', res)
   }
 </script>
 
@@ -34,7 +36,7 @@
                 class="mt-4"
                 :maxlength="225" />
               <v-text-field
-                v-model="formData.email"
+                v-model="formData.password"
                 :rules="rules.password"
                 class="mt-4"
                 :maxlength="225"

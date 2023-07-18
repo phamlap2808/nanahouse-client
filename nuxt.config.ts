@@ -4,8 +4,13 @@ import { resolve } from 'path'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
+  runtimeConfig: {
+    public: {
+      apiURL: process.env.API_URL || ''
+    }
+  },
   builder: 'vite',
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', 'dayjs-nuxt'],
   css: ['vuetify/lib/styles/main.sass', 'assets/style/main.scss'],
   build: {
     transpile: ['vuetify']
@@ -25,6 +30,12 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false
     }
   },
+  dayjs: {
+    locales: ['vi'],
+    plugins: ['relativeTime', 'utc', 'timezone'],
+    defaultLocale: 'vi',
+    defaultTimezone: 'Asia/Ho_Chi_Minh'
+  },
   alias: {
     components: resolve(__dirname, './components'),
     middleware: resolve(__dirname, './middleware'),
@@ -33,6 +44,8 @@ export default defineNuxtConfig({
     composables: resolve(__dirname, './composables'),
     store: resolve(__dirname, '.store'),
     assets: resolve(__dirname, './assets'),
-    define: resolve(__dirname, './define')
+    define: resolve(__dirname, './define'),
+    constant: resolve(__dirname, './constant'),
+    services: resolve(__dirname, './services')
   }
 })
