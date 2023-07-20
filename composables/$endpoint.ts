@@ -1,3 +1,5 @@
 export default {
-  login: '/auth/login'
+  login: '/auth/login',
+  register: '/auth/register-account',
+  verificationEmail: '/auth/verification-email'
 }

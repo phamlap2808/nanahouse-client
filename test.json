@@ -1,0 +1,24 @@
+// get permission
+{
+  "data": {
+    "permissions": ["view-list-product", "edit-product", "create-product", "delete-product", "view-detail-product"]
+  }
+},
+
+// curd group
+{
+    "data": {
+        "name": "string",
+        "users": ["1","2"],
+        "permissions": ["view-list-product", "edit-product", "create-product", "delete-product", "view-detail-product"]
+    }
+},
+
+// get list user
+{
+    "data": {
+        "name": "string",
+        "users": ["1","2"],
+        "permissions": ["view-list-product", "edit-product", "create-product", "delete-product", "view-detail-product"]
+    }
+}

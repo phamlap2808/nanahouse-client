@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', 'dayjs-nuxt'],
   css: ['vuetify/lib/styles/main.sass', 'assets/style/main.scss'],
   build: {
-    transpile: ['vuetify']
+    transpile: ['vuetify', '@vuepic/vue-datepicker']
   },
   app: {
     // global transition

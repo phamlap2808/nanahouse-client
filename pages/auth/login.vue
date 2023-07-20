@@ -1,4 +1,11 @@
 <script setup lang="ts">
+  import { ENCRYPT_SIGNATURE } from 'constant/common'
+  import { Code } from 'define/response-code'
+
+  definePageMeta({
+    layout: 'auth'
+  })
+
   const Form = ref()
   const loading = ref(false)
   const formData = reactive({
@@ -7,16 +14,18 @@
   })
 
   const rules = {
-    email: [(v: any) => !!v || 'Hãy nhập email'],
-    password: [(v: any) => !!v || 'Hẫy nhập mật khẩu']
+    email: [(v: any) => !!v || 'Email không được bỏ trống'],
+    password: [(v: any) => !!v || 'Mật khẩu không được bỏ trống']
   }
 
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    console.log('111111111111111', $endpoint.login)
     const res = await $axios.post($endpoint.login, formData)
-    console.log('222222222222222', res)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      $cookie('token', $crypto.encrypt(data.access_token, ENCRYPT_SIGNATURE))
+    }
   }
 </script>
 
@@ -33,12 +42,12 @@
                 :rules="rules.email"
                 label="Email"
                 variant="outlined"
-                class="mt-4"
+                class="mt-2"
                 :maxlength="225" />
               <v-text-field
                 v-model="formData.password"
                 :rules="rules.password"
-                class="mt-4"
+                class="mt-2"
                 :maxlength="225"
                 label="Mật Khẩu"
                 type="password"
