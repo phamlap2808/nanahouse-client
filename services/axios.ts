@@ -21,7 +21,7 @@ const handleRequest = (config: AxiosRequestConfig) => {
 
   if (token.value) {
     const tokenBytes = CryptoJS.AES.decrypt(token.value, ENCRYPT_SIGNATURE)
-    const decryptedToken = tokenBytes.toString(CryptoJS.enc.Utf8)
+    const decryptedToken = JSON.parse(tokenBytes.toString(CryptoJS.enc.Utf8))
 
     config.headers = {
       ...(token && { Authorization: `Bearer ${decryptedToken}` })

@@ -28,7 +28,13 @@ export default defineNuxtConfig({
       __VUE_I18N_FULL_INSTALL__: true,
       __VUE_I18N_LEGACY_API__: false,
       'process.env.DEBUG': false
+    },
+    ssr: {
+      noExternal: ['vuetify'] // add the vuetify vite plugin
     }
+  },
+  ignoreOptions: {
+    ignorecase: true
   },
   dayjs: {
     locales: ['vi'],
@@ -47,5 +53,8 @@ export default defineNuxtConfig({
     define: resolve(__dirname, './define'),
     constant: resolve(__dirname, './constant'),
     services: resolve(__dirname, './services')
+  },
+  experimental: {
+    externalVue: true
   }
 })

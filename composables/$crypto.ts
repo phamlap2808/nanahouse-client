@@ -2,10 +2,9 @@ import CryptoJS from 'crypto-js'
 
 export default {
   encrypt(value: string, key: string) {
-    return CryptoJS.AES.encrypt(value, key)
+    return CryptoJS.AES.encrypt(JSON.stringify(value), key).toString()
   },
   decrypt(value: string, key: string) {
-    const tokenBytes = CryptoJS.AES.decrypt(value, key)
-    return tokenBytes.toString(CryptoJS.enc.Utf8)
+    return JSON.parse(CryptoJS.AES.decrypt(value, key).toString(CryptoJS.enc.Utf8))
   }
 }
