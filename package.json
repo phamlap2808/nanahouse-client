@@ -39,7 +39,6 @@
     "@types/crypto-js": "^4.1.1",
     "@vuepic/vue-datepicker": "^5.4.0",
     "@vueup/vue-quill": "^1.2.0",
-    "ckeditor": "./ckeditor",
     "crypto-js": "^4.1.1",
     "dayjs-nuxt": "^1.1.2",
     "pinia": "^2.1.4",

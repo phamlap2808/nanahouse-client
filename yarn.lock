@@ -2473,9 +2473,6 @@ citty@^0.1.1:
   dependencies:
     consola "^3.2.3"
 
-ckeditor@./ckeditor:
-  version "0.0.1"
-
 clean-regexp@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/clean-regexp/-/clean-regexp-1.0.0.tgz"
