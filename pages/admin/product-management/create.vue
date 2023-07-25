@@ -8,7 +8,9 @@
   <div class="product-create">
     <h1>product-create</h1>
     <div>
-      <!-- <QuillEditor theme="snow" toolbar="minimal" class="min-h-200" /> -->
+      <ClientOnly>
+        <QuillEditor theme="snow" toolbar="minimal" class="h-100" />
+      </ClientOnly>
     </div>
   </div>
 </template>
