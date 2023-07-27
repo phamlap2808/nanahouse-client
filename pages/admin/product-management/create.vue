@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import ProductEditor from 'components/product/product-editor.vue'
   definePageMeta({
     layout: 'admin'
   })
@@ -7,10 +8,6 @@
 <template>
   <div class="product-create">
     <h1>product-create</h1>
-    <div>
-      <ClientOnly>
-        <QuillEditor theme="snow" toolbar="minimal" class="h-100" />
-      </ClientOnly>
-    </div>
+    <ProductEditor />
   </div>
 </template>
