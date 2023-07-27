@@ -1,0 +1,29 @@
+.header-default {
+  padding: 16px;
+  &__main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: auto;
+    &-mobile {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    &__main {
+      flex-direction: column;
+      &-icons {
+        display: none;
+      }
+      &-mobile {
+        margin-top: 20px;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+}
