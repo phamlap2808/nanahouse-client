@@ -1,9 +1,23 @@
 <script setup lang="ts">
+  import FooterDefault from 'components/layouts/footer-default.vue'
   import HeaderDefault from 'components/layouts/header-default.vue'
+
+  const drawer = ref(true)
 </script>
 <template>
   <div class="layout-login">
     <HeaderDefault />
-    <slot />
+    <v-layout class="h-full">
+      <v-navigation-drawer v-model="drawer" floating permanent>
+        <v-list density="compact" nav>
+          <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
+          <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      <v-main class="h-full">
+        <slot />
+      </v-main>
+    </v-layout>
+    <FooterDefault />
   </div>
 </template>
