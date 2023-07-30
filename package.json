@@ -43,6 +43,7 @@
     "dayjs-nuxt": "^1.1.2",
     "pinia": "^2.1.4",
     "shvl": "^3.0.0",
+    "vue-advanced-cropper": "^2.8.8",
     "vuetify": "^3.3.8"
   }
 }

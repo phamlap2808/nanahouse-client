@@ -1,7 +1,7 @@
 interface IProduct {
   id: number
-  name: string // bỏ -> name với title là 1
-  category_id: number // trả thêm cho a cái category name
+  name: string
+  category_id: number
   category_name: string
   origin_price: number
   friendly_price: number
@@ -23,6 +23,22 @@ interface IProduct {
   thumbnail: string
 }
 
+interface IProductCreate {
+  title: string
+  description: string
+  category_id: number | null
+  origin_price: number | null
+  friendly_price: number | null
+  quantity: number | null
+  availability: number | null
+  thumbnail: string | Blob
+  images: (string | Blob)[]
+  og_title: string
+  og_description: string
+  og_url: string
+}
+
 export {
-  IProduct
+  IProduct,
+  IProductCreate
 }

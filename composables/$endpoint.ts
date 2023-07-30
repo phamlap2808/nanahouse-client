@@ -6,7 +6,7 @@ export default {
 
   // category
   categoryCreate: '/admin/category/create',
-  categoryList: '/admin/category/list',
+  categoryList: '/category/list',
   categoryEdit: '/admin/category/edit',
   categoryDelete: '/admin/category/delete',
 

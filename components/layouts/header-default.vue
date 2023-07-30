@@ -19,17 +19,17 @@
             variant="outlined" />
         </div>
         <div class="header-default__main-icons gap-4 w-25">
-          <v-icon icon="mdi-account-outline" size="x-large" />
-          <v-icon icon="mdi-cart-outline" size="x-large" />
-          <v-icon icon="mdi-heart-outline" size="x-large" />
+          <v-icon icon="mdi-account-outline" size="40" />
+          <v-icon icon="mdi-cart-outline" size="40" />
+          <v-icon icon="mdi-heart-outline" size="40" />
         </div>
       </div>
       <div class="header-default__main-mobile">
-        <v-icon icon="mdi-menu" size="x-large" />
+        <v-icon icon="mdi-menu" size="40" />
         <div class="header-default__main-mobile-icons gap-4 w-25">
-          <v-icon icon="mdi-account-outline" size="x-large" />
-          <v-icon icon="mdi-cart-outline" size="x-large" />
-          <v-icon icon="mdi-heart-outline" size="x-large" />
+          <v-icon icon="mdi-account-outline" size="40" />
+          <v-icon icon="mdi-cart-outline" size="40" />
+          <v-icon icon="mdi-heart-outline" size="40" />
         </div>
       </div>
     </div>

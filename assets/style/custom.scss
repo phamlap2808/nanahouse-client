@@ -138,6 +138,12 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
     z-index: #{$i} !important;
   }
 }
+.m-auto {
+  margin: auto;
+}
+.p-auto {
+  padding: auto;
+}
 /**
   POSITION
 */
@@ -145,7 +151,7 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
   position: relative;
 }
 .absolute {
-  position: absolute;
+  position: absolute !important;
 }
 .fixed {
   position: fixed;

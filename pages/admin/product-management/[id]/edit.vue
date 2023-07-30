@@ -5,5 +5,7 @@
 </script>
 
 <template>
-  <div class="product-create">product-edit</div>
+  <div class="product-edit">
+    <h1>Chỉnh sửa sản phẩm</h1>
+  </div>
 </template>

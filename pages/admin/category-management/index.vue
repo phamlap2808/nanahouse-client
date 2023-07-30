@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import type { ICategory } from 'define/category'
   import type { IDataTableHeader } from 'define/data-table'
-  import DialogCreateCategory from 'components/category/dialog-create-category.vue'
-  import DialogEditCategory from 'components/category/dialog-edit-category.vue'
+  import DialogCreateCategory from 'components/admin/category/dialog-create-category.vue'
+  import DialogEditCategory from 'components/admin/category/dialog-edit-category.vue'
   import { Code } from 'define/response-code'
 
   definePageMeta({

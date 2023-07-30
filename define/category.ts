@@ -3,6 +3,13 @@ interface ICategory {
   name: string
 }
 
+interface ISubCategory {
+  id: number
+  category_id: number
+  sub_category: string
+}
+
 export {
-  ICategory
+  ICategory,
+  ISubCategory
 }
