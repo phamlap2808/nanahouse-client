@@ -15,5 +15,18 @@ export default {
   productList: '/products/list',
   productEdit: '/admin/product/edit',
   productDelete: '/admin/product/delete',
-  productDetail: '/admin/product/detail'
-} 
+  productDetail: '/admin/product/detail',
+
+  // users
+  usersList: '/user/list',
+  getMe: '/user/permission-myself',
+
+  // group
+  groupList: '/permission/group/list',
+  groupCreate: '/permission/group/create',
+  groupDelete: '/permission/group/delete',
+  groupEdit: '/permission/group/edit',
+
+  // permission
+  permissionList: '/permission/list'
+}
