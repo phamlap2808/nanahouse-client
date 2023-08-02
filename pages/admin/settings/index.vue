@@ -17,9 +17,9 @@
 
     <v-card-text>
       <v-window v-model="tab">
-        <v-window-item value="users"> <UserManagement /> </v-window-item>
+        <v-window-item value="users"> <UserManagement v-if="tab === 'users'" /> </v-window-item>
 
-        <v-window-item value="groups"> <GroupManagement /> </v-window-item>
+        <v-window-item value="groups"> <GroupManagement v-if="tab === 'groups'" /> </v-window-item>
       </v-window>
     </v-card-text>
   </div>

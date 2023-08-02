@@ -12,13 +12,13 @@
       key: 'user_id'
     },
     {
-      title: 'Ho ten',
+      title: 'Họ tên',
       align: 'start',
       sortable: false,
       key: 'user_name'
     },
     {
-      title: 'Nhom',
+      title: 'Nhóm',
       align: 'start',
       sortable: false,
       key: 'group_name'
@@ -30,7 +30,7 @@
       key: 'email'
     },
     {
-      title: 'Sinh nhat',
+      title: 'Sinh nhật',
       align: 'start',
       sortable: false,
       key: 'date_of_birth'
@@ -73,7 +73,7 @@
   <div class="user-management">
     <h1>Quản lý tài khoản</h1>
     <div class="flex justify-end mb-4">
-      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tao tai khoan </v-btn>
+      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo tài khoản </v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
       <v-data-table

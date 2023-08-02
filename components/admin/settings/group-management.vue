@@ -1,10 +1,14 @@
 <script setup lang="ts">
+  import CreateGroup from './create-group.vue'
+  import EditGroup from './edit-group.vue'
   import { IDataTableHeader } from 'define/data-table'
   import { Code } from 'define/response-code'
   import { IGroup } from 'define/user'
 
   const groupList = ref<IGroup[]>([])
   const loading = ref(false)
+  const showCreateModal = ref(false)
+  const showEditModal = ref(false)
   const headers: IDataTableHeader[] = [
     {
       title: 'ID',
@@ -13,7 +17,7 @@
       key: 'group_id'
     },
     {
-      title: 'Nhom',
+      title: 'Nhóm',
       align: 'start',
       sortable: false,
       key: 'group_name'
@@ -25,6 +29,18 @@
       key: 'actions'
     }
   ]
+  const selectionItem = ref<{ group_id: number; group_name: string; permissions: number[] }>({
+    group_id: 0,
+    group_name: '',
+    permissions: []
+  })
+
+  const toggleCreateModal = (value: boolean) => {
+    showCreateModal.value = value
+  }
+  const toggleEditModal = (value: boolean) => {
+    showEditModal.value = value
+  }
 
   const getGroupList = async () => {
     loading.value = true
@@ -36,16 +52,26 @@
     loading.value = false
   }
 
-  const toggleCreateModal = () => {
-    console.log('11111111111111')
-  }
-
   const editItem = (data: any) => {
-    console.log('11111111111111')
+    selectionItem.value.group_id = data.group_id
+    selectionItem.value.group_name = data.group_name
+    const temp: number[] = []
+    data.permissions.forEach((e: { id: number; name: string }) => {
+      temp.push(e.id)
+    })
+    selectionItem.value.permissions = temp
+    toggleEditModal(true)
   }
 
-  const deleteItem = (data: any) => {
-    console.log('11111111111111')
+  const deleteItem = async (data: any) => {
+    const params = new URLSearchParams({ id: data.group_id })
+    const res = await $axios.delete($endpoint.groupDelete, { params })
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xóa danh mục thành công')
+      showCreateModal.value = false
+      getGroupList()
+    }
   }
 
   onMounted(() => {
@@ -56,7 +82,7 @@
   <div class="group-management">
     <h1>Quản lý nhóm</h1>
     <div class="flex justify-end mb-4">
-      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tao tai khoan </v-btn>
+      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo nhóm </v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
       <v-data-table
@@ -67,10 +93,30 @@
         loading-text="Tải dữ liệu"
         class="elevation-1">
         <template #item.actions="{ item }">
-          <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
-          <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+          <v-icon
+            v-if="![1, 2].includes(item.raw.group_id)"
+            size="small"
+            class="me-2"
+            icon="mdi-pencil"
+            @click="editItem(item.raw)" />
+          <v-icon
+            v-if="![1, 2].includes(item.raw.group_id)"
+            size="small"
+            icon="mdi-delete"
+            @click="deleteItem(item.raw)" />
         </template>
       </v-data-table>
     </div>
+    <CreateGroup
+      v-if="showCreateModal"
+      :is-open="showCreateModal"
+      :toggle-open="toggleCreateModal"
+      @refecth="getGroupList" />
+    <EditGroup
+      v-if="showEditModal"
+      :is-open="showEditModal"
+      :toggle-open="toggleEditModal"
+      :item-edit="selectionItem"
+      @refecth="getGroupList" />
   </div>
 </template>

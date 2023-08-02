@@ -20,6 +20,9 @@ export default {
   // users
   usersList: '/user/list',
   getMe: '/user/permission-myself',
+  userCreate: '/admin/user-management/create',
+  userEdit: '/admin/user-management/edit',
+  userDelete: '/admin/user-management/delete',
 
   // group
   groupList: '/permission/group/list',
