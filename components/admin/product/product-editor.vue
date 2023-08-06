@@ -204,9 +204,14 @@
           </div>
           <input ref="uploadListImage" type="file" multiple class="hidden" @change="onHandlerListImage" />
         </div>
-        <!-- <ClientOnly>
-          <QuillEditor v-model="formData.description" theme="snow" toolbar="minimal" class="h-50" />
-        </ClientOnly> -->
+        <ClientOnly>
+          <QuillEditor
+            v-model:content="formData.description"
+            theme="snow"
+            toolbar="minimal"
+            class="h-50"
+            content-type="html" />
+        </ClientOnly>
         <v-select
           v-model="formData.category_id"
           :items="listCategory"

@@ -24,7 +24,7 @@
       title: 'Tên danh mục',
       align: 'start',
       sortable: false,
-      key: 'name'
+      key: 'category_name'
     },
     {
       title: '',

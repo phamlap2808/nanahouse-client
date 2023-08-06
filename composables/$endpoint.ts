@@ -11,11 +11,11 @@ export default {
   categoryDelete: '/admin/category/delete',
 
   // product
-  productCreate: '/admin/product/create',
+  productCreate: '/admin/products/create',
   productList: '/products/list',
   productEdit: '/admin/product/edit',
-  productDelete: '/admin/product/delete',
-  productDetail: '/admin/product/detail',
+  productDelete: '/admin/products/delete',
+  productDetail: '/products/detail',
 
   // users
   usersList: '/user/list',

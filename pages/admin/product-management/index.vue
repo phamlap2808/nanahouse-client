@@ -71,11 +71,17 @@
   }
 
   const editItem = (data: any) => {
-    console.log('edit')
+    navigateTo({ name: 'admin-product-management-id-edit', params: { id: data.id } })
   }
 
-  const deleteItem = (data: any) => {
-    console.log('delete')
+  const deleteItem = async (data: any) => {
+    const params = new URLSearchParams({ id: data.id })
+    const res = await $axios.delete($endpoint.productDelete, { params })
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xóa sản phẩm thành công')
+      getListProduct()
+    }
   }
 
   const redirectCreateProduct = () => {

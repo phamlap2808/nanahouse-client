@@ -41,6 +41,7 @@ const handleSuccess = (response: any) => {
 
 const handleErrorResponse = (error: ErrorApi) => {
   const status = error.response.status
+  const message = error.response.data.message
   switch (status) {
     case Code.BadRequest: {
       break
@@ -58,7 +59,10 @@ const handleErrorResponse = (error: ErrorApi) => {
       break
     }
     case Code.FailValidate: {
-      break
+      Object.keys(message).forEach((key: string) => {
+        $toast().error(message[key])
+      })
+      return
     }
     case Code.Unauthorized: {
       break
