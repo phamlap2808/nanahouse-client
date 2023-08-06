@@ -21,8 +21,8 @@
   const Form = ref()
 
   const formData: { name_group: string; permissions: number[] } = reactive({
-    email: '',
-    password: ''
+    name_group: '',
+    permissions: []
   })
 
   const rules = {
@@ -58,13 +58,16 @@
             :rules="rules.name_group"
             variant="outlined"
             class="mt-2"
+            placeholder="Tên nhóm"
             :maxlength="225" />
-          <v-text-field
-            v-model="formData.name_group"
-            :rules="rules.name_group"
-            variant="outlined"
-            class="mt-2"
-            :maxlength="225" />
+          <h3>Phân quyền</h3>
+          <v-checkbox
+            v-for="item in permissions"
+            :key="item.id"
+            v-model="formData.permissions"
+            :value="item.id"
+            :label="item.title"
+            hide-details />
         </v-form>
       </div>
     </template>

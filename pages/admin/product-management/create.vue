@@ -7,12 +7,12 @@
 
   const formData: IProductCreate = reactive({
     title: '',
-    description: '',
+    description: 'test',
     category_id: null,
     origin_price: null,
     friendly_price: null,
     quantity: null,
-    availability: null,
+    availability: 1,
     thumbnail: '',
     images: [],
     og_title: '',

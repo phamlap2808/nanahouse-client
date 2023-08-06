@@ -46,7 +46,6 @@
       (v: string) => !!v || 'Số lượng không được bỏ trống',
       (v: string) => Number.isInteger(Number.parseInt(v)) || 'Số lượng có giá trị là số nguyên'
     ],
-    availability: [(v: number) => !!v || 'Tình trạng sản phẩm không được bỏ trống'],
     slug: [
       (v: string) => !!v || 'Tình trạng sản phẩm không được bỏ trống',
       (v: string) => regexSlug.test(v) || 'Slug không đúng định dạng'
@@ -205,9 +204,9 @@
           </div>
           <input ref="uploadListImage" type="file" multiple class="hidden" @change="onHandlerListImage" />
         </div>
-        <ClientOnly>
+        <!-- <ClientOnly>
           <QuillEditor v-model="formData.description" theme="snow" toolbar="minimal" class="h-50" />
-        </ClientOnly>
+        </ClientOnly> -->
         <v-select
           v-model="formData.category_id"
           :items="listCategory"
@@ -241,7 +240,6 @@
         <v-select
           v-model="formData.availability"
           :items="availabilityList"
-          :rules="rules.availability"
           item-title="title"
           item-value="id"
           label="Tình trạng"
@@ -262,6 +260,9 @@
           variant="outlined"
           class="my-2"
           :maxlength="225" />
+        <div class="flex justify-end">
+          <v-btn type="submit" variant="outlined" class="text-center"> Tạo </v-btn>
+        </div>
       </v-form>
       <ImageCropper
         v-if="isOpenImgCropper && imgCropper"

@@ -1,9 +1,13 @@
 <script setup lang="ts">
+  import CreateUser from './create-user.vue'
+  import EditUser from './edit-user.vue'
   import { IDataTableHeader } from 'define/data-table'
   import { Code } from 'define/response-code'
   import { IUser } from 'define/user'
   const usersList = ref<IUser[]>([])
   const loading = ref(false)
+  const showCreateModal = ref(false)
+  const showEditModal = ref(false)
   const headers: IDataTableHeader[] = [
     {
       title: 'ID',
@@ -43,6 +47,11 @@
     }
   ]
 
+  const selectionItem = ref<{ user_id: number; group_id: number }>({
+    user_id: 0,
+    group_id: 0
+  })
+
   const getUsersList = async () => {
     loading.value = true
     const res = await $axios.get($endpoint.usersList)
@@ -53,16 +62,27 @@
     loading.value = false
   }
 
-  const toggleCreateModal = () => {
-    console.log('11111111111111')
+  const toggleCreateModal = (value: boolean) => {
+    showCreateModal.value = value
+  }
+  const toggleEditModal = (value: boolean) => {
+    showEditModal.value = value
   }
 
   const editItem = (data: any) => {
-    console.log('11111111111111')
+    selectionItem.value.group_id = data.group_id
+    selectionItem.value.user_id = data.user_id
+    toggleEditModal(true)
   }
 
-  const deleteItem = (data: any) => {
-    console.log('11111111111111')
+  const deleteItem = async (data: any) => {
+    const params = new URLSearchParams({ id: data.user_id })
+    const res = await $axios.delete($endpoint.userDelete, { params })
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xóa người dùng thành công')
+      getUsersList()
+    }
   }
 
   onMounted(() => {
@@ -84,10 +104,31 @@
         loading-text="Tải dữ liệu"
         class="elevation-1">
         <template #item.actions="{ item }">
-          <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
-          <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+          <v-icon
+            v-if="![2].includes(item.raw.group_id)"
+            size="small"
+            class="me-2"
+            icon="mdi-pencil"
+            @click="editItem(item.raw)" />
+          <v-icon
+            v-if="![2].includes(item.raw.group_id)"
+            size="small"
+            icon="mdi-delete"
+            @click="deleteItem(item.raw)" />
         </template>
       </v-data-table>
     </div>
+
+    <CreateUser
+      v-if="showCreateModal"
+      :is-open="showCreateModal"
+      :toggle-open="toggleCreateModal"
+      @refetch="getUsersList" />
+    <EditUser
+      v-if="showEditModal"
+      :is-open="showEditModal"
+      :toggle-open="toggleEditModal"
+      :item-edit="selectionItem"
+      @refetch="getUsersList" />
   </div>
 </template>

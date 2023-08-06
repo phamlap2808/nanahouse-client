@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { IGroup } from 'define/user'
   import BaseDialog from 'components/dialog/base-dialog.vue'
   import { Code } from 'define/response-code'
 
@@ -18,15 +19,27 @@
 
   const loading = ref(false)
   const Form = ref()
+  const groupList = ref<IGroup[]>([])
 
-  const formData: { email: string; password: string } = reactive({
+  const formData: { email: string; password: string; group_id: number } = reactive({
     email: '',
-    password: ''
+    password: '',
+    group_id: 1
   })
 
   const rules = {
     email: [(v: any) => !!v || 'Email không được bỏ trống'],
     password: [(v: any) => !!v || 'Mật khẩu không được bỏ trống']
+  }
+
+  const getGroupList = async () => {
+    loading.value = true
+    const res = await $axios.get($endpoint.groupList)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      groupList.value = data
+    }
+    loading.value = false
   }
 
   const onSubmit = async () => {
@@ -36,10 +49,14 @@
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Tạo User thành công')
-      props.toggleOpen(false)
       emits('refetch')
+      props.toggleOpen(false)
     }
   }
+
+  onMounted(() => {
+    getGroupList()
+  })
 </script>
 <template>
   <BaseDialog
@@ -58,13 +75,23 @@
             :rules="rules.email"
             variant="outlined"
             class="mt-2"
+            placeholder="Email"
             :maxlength="225" />
           <v-text-field
             v-model="formData.password"
             :rules="rules.password"
             variant="outlined"
             class="mt-2"
+            placeholder="Mật khẩu"
             :maxlength="225" />
+          <v-select
+            v-model="formData.group_id"
+            :items="groupList"
+            label="Nhóm"
+            item-title="group_name"
+            item-value="group_id"
+            variant="outlined"
+            class="mt-4" />
         </v-form>
       </div>
     </template>

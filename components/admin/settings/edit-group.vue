@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { PropType } from 'vue'
   import BaseDialog from 'components/dialog/base-dialog.vue'
   import { permissions } from 'define/permissions'
   import { Code } from 'define/response-code'
@@ -14,14 +15,7 @@
       required: true
     },
     itemEdit: {
-      type: Object as PropType<{
-        id: number
-        name: string
-        group_id: string
-        date_of_birth: string
-        phone: string
-        password: string
-      }>,
+      type: Object as PropType<{ group_id: number; group_name: string; permissions: number[] }>,
       required: true
     }
   })
@@ -31,52 +25,29 @@
   const loading = ref(false)
   const Form = ref()
 
-  const formData: {
-    id: number
-    name: string
-    group_id: string
-    date_of_birth: string
-    phone: string
-    password: string
-  } = reactive({
-    id: props.itemEdit.id,
-    name: props.itemEdit.name,
-    group_id: props.itemEdit.group_id,
-    date_of_birth: props.itemEdit.date_of_birth,
-    phone: props.itemEdit.phone,
-    password: props.itemEdit.password
+  const formData: { id: number; name_group: string; permissions: number[] } = reactive({
+    id: props.itemEdit.group_id,
+    name_group: props.itemEdit.group_name,
+    permissions: props.itemEdit.permissions
   })
 
   const rules = {
-    name: [(v: any) => !!v || 'Tên không được bỏ trống'],
-    password: [(v: any) => !!v || 'Mật khẩu không được bỏ trống']
+    name_group: [(v: any) => !!v || 'Tên nhóm không được bỏ trống']
   }
 
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    const data = { id: props.itemEdit.id }
-    if (props.itemEdit.name !== formData.name) {
-      Object.assign(data, { name: formData.name })
+    const data = { id: formData.id, permissions: formData.permissions }
+    if (props.itemEdit.group_name !== formData.name_group) {
+      Object.assign(data, { name_group: formData.name_group })
     }
-    if (props.itemEdit.group_id !== formData.group_id) {
-      Object.assign(data, { group_id: formData.group_id })
-    }
-    if (props.itemEdit.date_of_birth !== formData.date_of_birth) {
-      Object.assign(data, { date_of_birth: formData.date_of_birth })
-    }
-    if (props.itemEdit.phone !== formData.phone) {
-      Object.assign(data, { phone: formData.phone })
-    }
-    if (props.itemEdit.password !== formData.password) {
-      Object.assign(data, { password: formData.password })
-    }
-    const res = await $axios.put($endpoint.userEdit, data)
+    const res = await $axios.put($endpoint.groupEdit, data)
     const { code, status } = res.data
     if (status && code === Code.Success) {
-      $toast().success('Chỉnh sửa nhóm thành công')
-      props.toggleOpen(false)
+      $toast().success('Update nhóm thành công')
       emits('refetch')
+      props.toggleOpen(false)
     }
   }
 </script>
@@ -85,20 +56,28 @@
     :is-open="isOpen"
     :toggle-open="toggleOpen"
     width="640px"
-    title="Chỉnh sửa user"
-    button-text="Chỉnh sửa"
+    title="Tạo nhóm"
+    button-text="Tạo"
     :loading="loading"
     :callback-function="onSubmit">
     <template #main>
       <div class="dialog-create-category">
         <v-form ref="Form" lazy-validation>
           <v-text-field
-            v-model="formData.name"
-            label="Tên"
-            :rules="rules.name"
+            v-model="formData.name_group"
+            :rules="rules.name_group"
             variant="outlined"
             class="mt-2"
+            placeholder="Tên nhóm"
             :maxlength="225" />
+          <h3>Phân quyền</h3>
+          <v-checkbox
+            v-for="item in permissions"
+            :key="item.id"
+            v-model="formData.permissions"
+            :value="item.id"
+            :label="item.title"
+            hide-details />
         </v-form>
       </div>
     </template>
