@@ -1,6 +1,7 @@
 interface ICategory {
-  id: number
-  name: string
+  category_id: number
+  category_name: string
+  parent_id: number | null
 }
 
 interface ISubCategory {

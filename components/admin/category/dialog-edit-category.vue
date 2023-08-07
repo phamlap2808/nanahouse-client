@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { ICategory } from 'define/category'
   import type { PropType } from 'vue'
   import BaseDialog from 'components/dialog/base-dialog.vue'
   import { Code } from 'define/response-code'
@@ -15,7 +16,7 @@
       required: true
     },
     itemEdit: {
-      type: Object as PropType<{ id: number; name: string }>,
+      type: Object as PropType<{ category_id: number; category_name: string; parent_id: number | null }>,
       required: true
     }
   })
@@ -23,20 +24,36 @@
   const loading = ref(false)
   const Form = ref()
   const { isOpen } = toRefs(props)
+  const listCategory = ref<ICategory[]>([])
 
   const formData = reactive({
-    id: props.itemEdit.id,
-    name: props.itemEdit.name
+    category_id: props.itemEdit.category_id,
+    category_name: props.itemEdit.category_name,
+    parent_id: props.itemEdit.parent_id
   })
 
   const rules = {
     name: [(v: any) => !!v || 'Tên danh mục không được bỏ trống']
   }
 
+  const getListCategory = async () => {
+    loading.value = true
+    const res = await $axios.get($endpoint.categoryList)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      listCategory.value = data
+    }
+    loading.value = false
+  }
+
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    const res = await $axios.put($endpoint.categoryEdit, formData)
+    const data = { category_id: formData.category_id, category_name: formData.category_name }
+    if (props.itemEdit.parent_id !== formData.parent_id) {
+      Object.assign(data, { parent_id: formData.parent_id })
+    }
+    const res = await $axios.put($endpoint.categoryEdit, data)
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Chỉnh sửa danh mục thành công')
@@ -44,6 +61,10 @@
       emits('refecth')
     }
   }
+
+  onMounted(() => {
+    getListCategory()
+  })
 </script>
 
 <template>
@@ -58,7 +79,20 @@
     <template #main>
       <div class="dialog-create-category">
         <v-form ref="Form" lazy-validation>
-          <v-text-field v-model="formData.name" :rules="rules.name" variant="outlined" class="mt-2" :maxlength="225" />
+          <v-text-field
+            v-model="formData.category_name"
+            :rules="rules.name"
+            variant="outlined"
+            class="mt-2"
+            :maxlength="225" />
+          <v-select
+            v-model="formData.parent_id"
+            :items="listCategory"
+            label="Danh mục cha"
+            item-title="category_name"
+            item-value="category_id"
+            variant="outlined"
+            class="mt-4" />
         </v-form>
       </div>
     </template>

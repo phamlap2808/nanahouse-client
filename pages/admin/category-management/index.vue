@@ -12,9 +12,10 @@
   const listCategory = ref<ICategory[]>([])
   const showCreateModal = ref(false)
   const showEditModal = ref(false)
-  const selectionItem = ref<{ id: number; name: string }>({
-    id: 0,
-    name: ''
+  const selectionItem = ref<{ category_id: number; category_name: string; parent_id: number | null }>({
+    category_id: 0,
+    category_name: '',
+    parent_id: null
   })
 
   const loading = ref(false)
@@ -52,8 +53,9 @@
   }
 
   const editItem = (data: any) => {
-    selectionItem.value.id = data.id
-    selectionItem.value.name = data.name
+    selectionItem.value.category_id = data.category_id
+    selectionItem.value.category_name = data.category_name
+    selectionItem.value.parent_id = data.parent_id
     toggleEditModal(true)
   }
 
