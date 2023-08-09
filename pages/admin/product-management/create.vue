@@ -15,14 +15,13 @@
     quantity: null,
     availability: 1,
     thumbnail: '',
-    images: [],
+    image: [],
     og_title: '',
     og_description: '',
     og_url: ''
   })
 
   const onCreateProduct = async (data: IProductCreate) => {
-    console.log('111111111111111111', data)
     const form = new FormData()
     if (data.title) {
       form.append('title', data.title)
@@ -57,8 +56,8 @@
     if (data.og_url) {
       form.append('og_url', data.og_url)
     }
-    if (data.images.length > 0) {
-      data.images.forEach((item: string | Blob, index, number) => {
+    if (data.image.length > 0) {
+      data.image.forEach((item: string | Blob, index, number) => {
         form.append(`image[${index}]`, item)
       })
     }

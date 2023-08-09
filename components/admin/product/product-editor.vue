@@ -109,7 +109,7 @@
           $toast().error(`${item.name} không được qua 5mb`)
           return
         }
-        formData.images.push(item)
+        formData.image.push(item)
       })
     }
   }
@@ -121,7 +121,10 @@
     })
   }
 
-  const loadImg = (img: string | Blob) => {
+  const loadImg = (img: string | Blob | { id: number; image: string }) => {
+    if (typeof img === 'object') {
+      return img.image
+    }
     if (typeof img === 'string') {
       return img
     }
@@ -133,7 +136,7 @@
   }
 
   const onRemoveListImage = (index: number) => {
-    formData.images.splice(index, 1)
+    formData.image.splice(index, 1)
   }
 
   const onSubmit = async () => {
@@ -182,7 +185,7 @@
               <img :src="loadImg(formData.thumbnail)" alt="thubnail" class="size-50 rounded-3xl" />
             </div>
           </div>
-          <input ref="uploadThumbnail" type="file" multiple="false" class="hidden" @change="onHandlerThumbnail" />
+          <input ref="uploaimagedThumbnail" type="file" multiple="false" class="hidden" @change="onHandlerThumbnail" />
         </div>
         <div class="product-editor__list-image mb-4">
           <h4 class="mb-2">Thư viện ảnh</h4>
@@ -193,7 +196,7 @@
                 <div>Tải ảnh</div>
               </div>
             </div>
-            <div v-for="(image, index) in formData.images" :key="index" class="relative">
+            <div v-for="(image, index) in formData.image" :key="index" class="relative">
               <v-icon
                 size="small"
                 icon="mdi-close-circle"
@@ -266,7 +269,9 @@
           class="my-2"
           :maxlength="225" />
         <div class="flex justify-end">
-          <v-btn type="submit" variant="outlined" class="text-center"> Tạo </v-btn>
+          <v-btn type="submit" variant="outlined" class="text-center">
+            {{ props.mode === 'create' ? 'Tạo' : 'Chỉnh sửa' }}
+          </v-btn>
         </div>
       </v-form>
       <ImageCropper

@@ -25,6 +25,10 @@
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       $cookie('token', $crypto.encrypt(data.access_token, ENCRYPT_SIGNATURE))
+      $cookie('group_id', data.group_id)
+      $localStorage('set', 'permissions', data.permissions)
+      navigateTo({ name: 'admin-dashboard' })
+      // $cookie('group_id', )
     }
   }
 </script>

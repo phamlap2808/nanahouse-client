@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { IProductCreate } from 'define/product'
+  import ProductEditor from 'components/admin/product/product-editor.vue'
   import { Code } from 'define/response-code'
 
   definePageMeta({
@@ -6,6 +8,20 @@
   })
 
   const loading = ref(true)
+  let formData: IProductCreate = reactive({
+    title: '',
+    description: '',
+    category_id: null,
+    origin_price: null,
+    friendly_price: null,
+    quantity: null,
+    availability: 1,
+    thumbnail: '',
+    image: [],
+    og_title: '',
+    og_description: '',
+    og_url: ''
+  })
 
   const getProductDetail = async () => {
     loading.value = true
@@ -13,7 +29,7 @@
     const res = await $axios.get($endpoint.productDetail, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      console.log(data)
+      formData = data
     }
     loading.value = false
   }
@@ -26,5 +42,6 @@
 <template>
   <div class="product-edit">
     <h1>Chỉnh sửa sản phẩm</h1>
+    <ProductEditor v-if="!loading" :data="formData" mode="edit" />
   </div>
 </template>

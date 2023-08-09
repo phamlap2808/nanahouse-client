@@ -41,7 +41,12 @@
     const res = await $axios.get($endpoint.categoryList)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      listCategory.value = data
+      const temp: ICategory[] = data
+      temp.forEach((item: ICategory) => {
+        if (formData.category_id !== item.category_id) {
+          listCategory.value.push(item)
+        }
+      })
     }
     loading.value = false
   }
