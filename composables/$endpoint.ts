@@ -13,7 +13,7 @@ export default {
   // product
   productCreate: '/admin/products/create',
   productList: '/products/list',
-  productEdit: '/admin/product/edit',
+  productEdit: '/admin/products/edit',
   productDelete: '/admin/products/delete',
   productDetail: '/products/detail',
 
@@ -29,6 +29,13 @@ export default {
   groupCreate: '/permission/group/create',
   groupDelete: '/permission/group/delete',
   groupEdit: '/permission/group/edit',
+
+  // blog
+  blogCreate: '/admin/blogs/create',
+  blogList: '/blogs/list',
+  blogDetail: '/blogs/detail',
+  blogEdit: '/admin/blogs/edit',
+  blogDelete: '/admin/blogs/delete',
 
   // permission
   permissionList: '/permission/list'

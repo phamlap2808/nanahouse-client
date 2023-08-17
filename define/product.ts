@@ -32,7 +32,7 @@ interface IProductCreate {
   quantity: number | null
   availability: number | null
   thumbnail: string | Blob
-  image: (string | Blob)[]
+  image: (string | Blob | { id: number; image: string })[]
   og_title: string
   og_description: string
   og_url: string

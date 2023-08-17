@@ -54,7 +54,7 @@
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    const data = { category_id: formData.category_id, category_name: formData.category_name }
+    const data = { category_id: formData.category_id, name: formData.category_name }
     if (props.itemEdit.parent_id !== formData.parent_id) {
       Object.assign(data, { parent_id: formData.parent_id })
     }

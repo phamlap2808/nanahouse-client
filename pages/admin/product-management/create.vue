@@ -57,7 +57,7 @@
       form.append('og_url', data.og_url)
     }
     if (data.image.length > 0) {
-      data.image.forEach((item: string | Blob, index, number) => {
+      data.image.forEach((item: any, index: number) => {
         form.append(`image[${index}]`, item)
       })
     }

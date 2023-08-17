@@ -60,7 +60,7 @@
   }
 
   const deleteItem = async (data: any) => {
-    const params = new URLSearchParams({ id: data.id })
+    const params = new URLSearchParams({ id: data.category_id })
     const res = await $axios.delete($endpoint.categoryDelete, { params })
     const { code, status } = res.data
     if (status && code === Code.Success) {

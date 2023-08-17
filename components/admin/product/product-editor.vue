@@ -6,7 +6,7 @@
   import { regexSlug } from 'constant/regex'
   import { Code } from 'define/response-code'
 
-  const emits = defineEmits(['create', 'edit'])
+  const emits = defineEmits(['create', 'edit', 'refetch'])
 
   const props = defineProps({
     data: {
@@ -20,7 +20,7 @@
   })
 
   const Form = ref()
-  const formData: IProductCreate = reactive(props.data)
+  const formData: IProductCreate = reactive(JSON.parse(JSON.stringify(props.data)))
   const loading = ref(true)
   const uploadThumbnail = ref()
   const uploadListImage = ref()
@@ -122,13 +122,13 @@
   }
 
   const loadImg = (img: string | Blob | { id: number; image: string }) => {
-    if (typeof img === 'object') {
+    if ($helper.isBlob(img)) {
+      return URL.createObjectURL(img)
+    } else if (typeof img === 'string') {
+      return img
+    } else {
       return img.image
     }
-    if (typeof img === 'string') {
-      return img
-    }
-    return URL.createObjectURL(img)
   }
 
   const onRemoveThumbnail = () => {
@@ -136,7 +136,22 @@
   }
 
   const onRemoveListImage = (index: number) => {
-    formData.image.splice(index, 1)
+    if (props.mode === 'create') {
+      formData.image.splice(index, 1)
+    } else {
+      const form = new FormData()
+      formData.image.forEach(async (img: any, i: number) => {
+        if (i === index) {
+          form.append('id', useRoute().params.id as string)
+          form.append(`delete_image[${img.id}]`, img.id)
+          const res = await $axios.post($endpoint.productEdit, form)
+          const { code, status } = res.data
+          if (status && code === Code.Success) {
+            emits('refetch')
+          }
+        }
+      })
+    }
   }
 
   const onSubmit = async () => {
@@ -146,7 +161,9 @@
       emits('create', formData)
       return
     }
-    console.log('edits')
+    if (props.mode === 'edit') {
+      emits('edit', formData)
+    }
   }
 
   onMounted(async () => {
@@ -185,7 +202,7 @@
               <img :src="loadImg(formData.thumbnail)" alt="thubnail" class="size-50 rounded-3xl" />
             </div>
           </div>
-          <input ref="uploaimagedThumbnail" type="file" multiple="false" class="hidden" @change="onHandlerThumbnail" />
+          <input ref="uploadThumbnail" type="file" multiple="false" class="hidden" @change="onHandlerThumbnail" />
         </div>
         <div class="product-editor__list-image mb-4">
           <h4 class="mb-2">Thư viện ảnh</h4>
