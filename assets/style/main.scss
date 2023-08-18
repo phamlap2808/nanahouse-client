@@ -1,0 +1,9 @@
+@import './custom.scss';
+@import './loading.scss';
+@import './components/index.scss';
+
+.hide-input {
+  .v-input__control {
+    display: none !important;
+  }
+}

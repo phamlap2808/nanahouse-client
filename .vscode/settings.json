@@ -1,27 +1,26 @@
 {
-    "[typescript][javascript][json][jsonc][css][scss][html][markdown]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode",
-      "editor.formatOnSave": true,
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.fixAll.stylelint": true
-      }
-    },
-    "[vue]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode",
-      "editor.formatOnSave": true,
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.fixAll.stylelint": true
-      }
-    },
+  "[typescript][javascript][json][jsonc][css][scss][html][markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": {},
-    "eslint.alwaysShowStatus": true,
-    "eslint.validate": ["javascript", "typescript", "vue", "html", "markdown"],
-    "[svg]": {
-      "editor.defaultFormatter": "jock.svg"
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
     }
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {},
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": ["javascript", "typescript", "vue", "html", "markdown"],
+  "[svg]": {
+    "editor.defaultFormatter": "jock.svg"
   }
-  
+}

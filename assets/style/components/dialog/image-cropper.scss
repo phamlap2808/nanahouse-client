@@ -1,0 +1,10 @@
+.image-cropper {
+  .vue-advanced-cropper {
+    max-height: 700px;
+    max-width: 1000px;
+    &__stretcher {
+      max-height: 700px;
+      max-width: 1000px;
+    }
+  }
+}

@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .ts,.vue"
   },
   "devDependencies": {
+    "@mdi/font": "^7.2.96",
     "@nuxt/devtools": "latest",
     "@nuxt/types": "^2.17.0",
     "@nuxt/vue-app": "^2.17.0",
@@ -26,18 +27,23 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.15.1",
     "lodash-es": "^4.17.21",
-    "nuxt": "^3.6.2",
+    "nuxt": "3.6.2",
     "prettier": "^3.0.0",
-    "primeflex": "^3.3.1",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@types/crypto-js": "^4.1.1",
+    "@vuepic/vue-datepicker": "^5.4.0",
+    "@vueup/vue-quill": "^1.2.0",
     "crypto-js": "^4.1.1",
+    "dayjs-nuxt": "^1.1.2",
     "pinia": "^2.1.4",
-    "primevue": "^3.29.2",
-    "shvl": "^3.0.0"
+    "shvl": "^3.0.0",
+    "vue-advanced-cropper": "^2.8.8",
+    "vuetify": "^3.3.8"
   }
 }

@@ -1,0 +1,37 @@
+<script setup lang="ts"></script>
+<template>
+  <div class="header-default w-full border-bottom">
+    <div class="header-default__banner"></div>
+    <div class="header-default__main max-w-267">
+      <div class="flex item-center justify-between max-w-267 w-full">
+        <img src="@/assets/icons/logo-branch.svg" alt="nanahouse-logo" class="size-30" />
+        <div class="max-w-88 w-full">
+          <v-autocomplete
+            append-inner-icon="mdi-magnify"
+            auto-select-first
+            class="flex-full-width"
+            density="comfortable"
+            item-props
+            placeholder="Tìm kiếm"
+            rounded
+            hide-details
+            flat
+            variant="outlined" />
+        </div>
+        <div class="header-default__main-icons gap-4 w-30">
+          <v-icon icon="mdi-account-outline" size="40" />
+          <v-icon icon="mdi-cart-outline" size="40" />
+          <v-icon icon="mdi-heart-outline" size="40" />
+        </div>
+      </div>
+      <div class="header-default__main-mobile">
+        <v-icon icon="mdi-menu" size="40" />
+        <div class="header-default__main-mobile-icons gap-4 w-30">
+          <v-icon icon="mdi-account-outline" size="40" />
+          <v-icon icon="mdi-cart-outline" size="40" />
+          <v-icon icon="mdi-heart-outline" size="40" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

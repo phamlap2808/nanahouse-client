@@ -4,20 +4,21 @@ import { resolve } from 'path'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
+  runtimeConfig: {
+    public: {
+      apiURL: process.env.API_URL || ''
+    }
+  },
   builder: 'vite',
-  modules: ['@pinia/nuxt'],
-  css: [
-    'primevue/resources/themes/lara-light-blue/theme.css',
-    'primevue/resources/primevue.css',
-    '/node_modules/primeflex/primeflex.css'
-  ],
+  modules: ['@pinia/nuxt', 'dayjs-nuxt'],
+  css: ['vuetify/lib/styles/main.sass', 'assets/style/main.scss'],
+  build: {
+    transpile: ['vuetify', '@vuepic/vue-datepicker']
+  },
   app: {
     // global transition
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' }
-  },
-  build: {
-    transpile: ['primevue']
   },
   vite: {
     build: {
@@ -25,8 +26,21 @@ export default defineNuxtConfig({
     },
     define: {
       __VUE_I18N_FULL_INSTALL__: true,
-      __VUE_I18N_LEGACY_API__: false
+      __VUE_I18N_LEGACY_API__: false,
+      'process.env.DEBUG': false
+    },
+    ssr: {
+      noExternal: ['vuetify'] // add the vuetify vite plugin
     }
+  },
+  ignoreOptions: {
+    ignorecase: true
+  },
+  dayjs: {
+    locales: ['vi'],
+    plugins: ['relativeTime', 'utc', 'timezone'],
+    defaultLocale: 'vi',
+    defaultTimezone: 'Asia/Ho_Chi_Minh'
   },
   alias: {
     components: resolve(__dirname, './components'),
@@ -36,6 +50,11 @@ export default defineNuxtConfig({
     composables: resolve(__dirname, './composables'),
     store: resolve(__dirname, '.store'),
     assets: resolve(__dirname, './assets'),
-    define: resolve(__dirname, './define')
+    define: resolve(__dirname, './define'),
+    constant: resolve(__dirname, './constant'),
+    services: resolve(__dirname, './services')
+  },
+  experimental: {
+    externalVue: true
   }
 })

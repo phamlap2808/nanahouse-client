@@ -1,0 +1,9 @@
+components.d.ts
+nuxt.d.ts
+dist
+.nuxt
+.output
+.eslintrc.js
+nuxt.config.ts
+commitlint.config.js
+**/*.scss
