@@ -49,17 +49,21 @@
   }
 
   const editItem = (data: any) => {
-    // navigateTo({ name: 'admin-product-management-id-edit', params: { id: data.id } })
+    navigateTo({ name: 'admin-blog-management-id-edit', params: { id: data.id } })
   }
 
   const deleteItem = async (data: any) => {
-    // const params = new URLSearchParams({ id: data.id })
-    // const res = await $axios.delete($endpoint.productDelete, { params })
-    // const { code, status } = res.data
-    // if (status && code === Code.Success) {
-    //   $toast().success('Xóa sản phẩm thành công')
-    //   getListProduct()
-    // }
+    const params = new URLSearchParams({ id: data.id })
+    const res = await $axios.delete($endpoint.blogDelete, { params })
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xóa sản phẩm thành công')
+      getListBlog()
+    }
+  }
+
+  const redirectCreateBlog = () => {
+    navigateTo({ name: 'admin-blog-management-create' })
   }
 
   onMounted(() => {
@@ -71,7 +75,7 @@
   <div class="blog-page p-4">
     <h1>Quản lý bài viết</h1>
     <div class="flex justify-end mb4">
-      <v-btn type="submit" variant="outlined" class="text-center">Tạo bài viết</v-btn>
+      <v-btn type="submit" variant="outlined" class="text-center" @click="redirectCreateBlog">Tạo bài viết</v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
       <v-data-table

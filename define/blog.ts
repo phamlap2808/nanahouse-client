@@ -19,6 +19,18 @@ interface IBlog {
   twitter_card: string
 }
 
+interface IBlogCreate {
+  content: string
+  status: number
+  thumbnail: string
+  title: string
+  description: string
+  og_url: string
+  og_title: string
+  og_description: string
+}
+
 export {
-  IBlog
+  IBlog,
+  IBlogCreate
 }

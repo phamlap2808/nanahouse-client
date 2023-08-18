@@ -42,6 +42,8 @@ const handleSuccess = (response: any) => {
 const handleErrorResponse = (error: ErrorApi) => {
   const status = error.response.status
   const message = error.response.data.message
+  const token = $cookie('token')
+    const groupId = $cookie('group_id')
   switch (status) {
     case Code.BadRequest: {
       break
@@ -65,6 +67,9 @@ const handleErrorResponse = (error: ErrorApi) => {
       return
     }
     case Code.Unauthorized: {
+      token.value = null
+      groupId.value = null
+      navigateTo({ name: 'auth-login' })
       break
     }
     default:

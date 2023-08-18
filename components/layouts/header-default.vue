@@ -18,7 +18,7 @@
             flat
             variant="outlined" />
         </div>
-        <div class="header-default__main-icons gap-4 w-25">
+        <div class="header-default__main-icons gap-4 w-30">
           <v-icon icon="mdi-account-outline" size="40" />
           <v-icon icon="mdi-cart-outline" size="40" />
           <v-icon icon="mdi-heart-outline" size="40" />
@@ -26,7 +26,7 @@
       </div>
       <div class="header-default__main-mobile">
         <v-icon icon="mdi-menu" size="40" />
-        <div class="header-default__main-mobile-icons gap-4 w-25">
+        <div class="header-default__main-mobile-icons gap-4 w-30">
           <v-icon icon="mdi-account-outline" size="40" />
           <v-icon icon="mdi-cart-outline" size="40" />
           <v-icon icon="mdi-heart-outline" size="40" />

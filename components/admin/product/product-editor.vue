@@ -199,7 +199,7 @@
                 size="small"
                 icon="mdi-close-circle absolute top-16px right-16px pointer"
                 @click="onRemoveThumbnail" />
-              <img :src="loadImg(formData.thumbnail)" alt="thubnail" class="size-50 rounded-3xl" />
+              <img :src="loadImg(formData.thumbnail)" alt="thumbnail" class="size-50 rounded-3xl" />
             </div>
           </div>
           <input ref="uploadThumbnail" type="file" multiple="false" class="hidden" @change="onHandlerThumbnail" />
@@ -228,8 +228,8 @@
           <QuillEditor
             v-model:content="formData.description"
             theme="snow"
-            toolbar="minimal"
-            class="h-50"
+            toolbar="full"
+            class="h-80"
             content-type="html" />
         </ClientOnly>
         <v-select

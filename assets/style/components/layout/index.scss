@@ -1,2 +1,8 @@
 @import './header-default.scss';
 @import './footer-default.scss';
+
+.layout-default {
+  &__container {
+    margin: 0 auto;
+  }
+}
