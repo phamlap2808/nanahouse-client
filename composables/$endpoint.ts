@@ -38,5 +38,9 @@ export default {
   blogDelete: '/admin/blogs/delete',
 
   // permission
-  permissionList: '/permission/list'
+  permissionList: '/permission/list',
+  
+  // home
+  listCategoryHome: '/home',
+  editCategoryHome: '/admin/home/edit'
 }

@@ -9,6 +9,7 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
     font-weight: #{$weight} !important;
   }
 }
+
 @for $i from 0 through 500 {
   // top, bottom, left, right
   @each $side in $sides {
@@ -138,96 +139,124 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
     z-index: #{$i} !important;
   }
 }
+
 .m-auto {
   margin: auto;
 }
+
 .p-auto {
   padding: auto;
 }
+
 /**
   POSITION
 */
 .relative {
   position: relative;
 }
+
 .absolute {
   position: absolute !important;
 }
+
 .fixed {
   position: fixed;
 }
+
 .sticky {
   position: sticky;
 }
+
 /**
   Flex
 */
 .flex {
   display: flex;
 }
+
 .flex-auto {
   flex: 1 1 auto;
 }
+
 .flex-col {
   flex-direction: column;
 }
+
 .flex-1 {
   flex: 1 1 0%;
 }
+
 .flex-initial {
   flex: 0 1 auto;
 }
+
 .shrink {
   flex-shrink: 0;
 }
+
 .item-center {
   align-items: center;
 }
+
 .justify-center {
   justify-content: center;
 }
+
 .justify-end {
   justify-content: flex-end;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .flex-wrap {
   flex-wrap: wrap;
 }
+
 .flex-row {
   flex-direction: row;
 }
+
 .flex-row-reverse {
   flex-direction: row-reverse;
 }
+
 .flex-col {
   flex-direction: column;
 }
+
 .flex-col-reverse {
   flex-direction: column-reverse;
 }
+
 .grow {
   flex-grow: 1;
 }
+
 /**
   HEIGHT
 */
 .h-100vh {
   height: 100vh !important;
 }
+
 .h-full {
   height: 100%;
 }
+
 .min-h-full {
   min-height: 100%;
 }
+
 .min-h-100vh {
   min-height: 100vh !important;
 }
+
 .h-half {
   height: 50%;
 }
+
 .min-h-uset {
   min-height: unset !important;
 }
@@ -235,54 +264,67 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 .min-w-fit {
   min-width: fit-content;
 }
+
 /**
   WIDTH
 */
 .w-full {
   width: 100%;
 }
+
 .w-half {
   width: 50%;
 }
+
 /*
   image
 */
 .object-cover {
   object-fit: cover;
 }
+
 .object-contain {
   object-fit: contain;
 }
+
 /**
   text-align
 */
 .text-left {
   text-align: left;
 }
+
 .text-center {
   text-align: center;
 }
+
 .text-right {
   text-align: right;
 }
+
 .text-justify {
   text-align: justify;
 }
+
 .text-start {
   text-align: start;
 }
+
 .text-end {
   text-align: end;
 }
+
 /**
   cursor
 */
 .pointer {
   cursor: pointer;
 }
+
 .cursor-default {
   cursor: default;
 }
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -291,38 +333,52 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 
 /** BACKGROUND COLOR */
 
+.bg-gray-light {
+  background-color: #f8f8f8;
+}
+
 // border-radius
 .rounded-full {
   border-radius: 50%;
 }
+
 .rounded-none {
   border-radius: 0;
 }
+
 .rounded-sm {
   border-radius: 2px;
 }
+
 .rounded {
   border-radius: 4px;
 }
+
 .rounded-md {
   border-radius: 6px;
 }
+
 .rounded-lg {
   border-radius: 8px;
 }
+
 .rounded-xl {
   border-radius: 12px !important;
 }
+
 .rounded-2xl {
   border-radius: 16px;
 }
+
 .rounded-3xl {
   border-radius: 24px;
 }
+
 // whitespace
 .whitespace-pre {
   white-space: pre;
 }
+
 // display
 .hidden {
   display: none;
@@ -345,12 +401,15 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 .border-top {
   border-top: 2px solid #f5f5f5;
 }
+
 .border-bottom {
   border-bottom: 2px solid #f5f5f5;
 }
+
 .border-left {
   border-left: 2px solid #f5f5f5;
 }
+
 .border-right {
   border-right: 2px solid #f5f5f5;
 }
@@ -367,9 +426,11 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
   height: 50px;
   animation: spin 2s linear infinite;
 }
+
 .ml-auto {
   margin-left: auto;
 }
+
 .p-unset {
   padding: unset !important;
 }
@@ -394,48 +455,63 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 .overflow-auto {
   overflow: auto;
 }
+
 .overflow-hidden {
   overflow: hidden;
 }
+
 .overflow-clip {
   overflow: clip;
 }
+
 .overflow-visible {
   overflow: visible;
 }
+
 .overflow-visible-auto {
   overflow: visible auto;
 }
+
 .overflow-scroll {
   overflow: scroll;
 }
+
 .overflow-x-auto {
   overflow-x: auto;
 }
+
 .overflow-y-auto {
   overflow-y: auto;
 }
+
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+
 .overflow-y-hidden {
   overflow-y: hidden;
 }
+
 .overflow-x-clip {
   overflow-x: clip;
 }
+
 .overflow-y-clip {
   overflow-y: clip;
 }
+
 .overflow-x-visible {
   overflow-x: visible;
 }
+
 .overflow-y-visible {
   overflow-y: visible;
 }
+
 .overflow-x-scroll {
   overflow-x: scroll;
 }
+
 .overflow-y-scroll {
   overflow-y: scroll;
 }
@@ -444,12 +520,15 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 .underline {
   text-decoration-line: underline;
 }
+
 .overline {
   text-decoration-line: overline;
 }
+
 .line-through {
   text-decoration-line: line-through;
 }
+
 .no-underline {
   text-decoration-line: none;
 }

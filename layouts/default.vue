@@ -7,7 +7,7 @@
 <template>
   <div class="layout-default">
     <HeaderDefault />
-    <v-layout class="h-full">
+    <v-layout class="min-h-150">
       <!-- <v-navigation-drawer v-model="drawer" permanent>
         <v-list density="compact" nav>
           <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>

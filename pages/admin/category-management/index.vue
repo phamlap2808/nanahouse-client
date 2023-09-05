@@ -10,6 +10,8 @@
   })
 
   const listCategory = ref<ICategory[]>([])
+  const listCategoryChild = ref<ICategory[]>([])
+  const categoryHome = ref<number[]>([])
   const showCreateModal = ref(false)
   const showEditModal = ref(false)
   const selectionItem = ref<{ category_id: number; category_name: string; parent_id: number | null }>({
@@ -44,10 +46,26 @@
 
   const getListCategory = async () => {
     loading.value = true
-    const res = await $axios.get($endpoint.categoryList)
+    const params = new URLSearchParams({
+      raw: '0'
+    })
+    const res = await $axios.get($endpoint.categoryList, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listCategory.value = data
+    }
+    loading.value = false
+  }
+
+  const getListCategoryChild = async () => {
+    loading.value = true
+    const params = new URLSearchParams({
+      raw: '2'
+    })
+    const res = await $axios.get($endpoint.categoryList, { params })
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      listCategoryChild.value = data
     }
     loading.value = false
   }
@@ -70,8 +88,36 @@
     }
   }
 
-  onMounted(() => {
-    getListCategory()
+  const getListCategoryHome = async () => {
+    categoryHome.value = []
+    const res = await $axios.get($endpoint.listCategoryHome)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      data.forEach((item: { category_id: number }) => {
+        categoryHome.value.push(item.category_id)
+      })
+    }
+  }
+
+  const HandleListCategoryHome = async () => {
+    const data = {
+      updateStt: categoryHome.value
+    }
+    const res = await $axios.post($endpoint.editCategoryHome, data)
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Cập nhật danh mục trang chủ thành công')
+    }
+  }
+
+  const fetchData = async () => {
+    await getListCategory()
+    await getListCategoryChild()
+    await getListCategoryHome()
+  }
+
+  onMounted(async () => {
+    await fetchData()
   })
 </script>
 
@@ -79,7 +125,7 @@
   <div class="category-page p-4">
     <h1>Quản lý danh mục</h1>
     <div class="flex justify-end mb-4">
-      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo danh mục </v-btn>
+      <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo danh mục</v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
       <v-data-table
@@ -96,16 +142,27 @@
       </v-data-table>
     </div>
 
+    <h1>Quản lý trang chủ</h1>
+    <v-select
+      v-model="categoryHome"
+      :flat="true"
+      :items="listCategoryChild"
+      :chips="true"
+      :multiple="true"
+      item-title="category_name"
+      item-value="category_id" />
+    <v-btn @click="HandleListCategoryHome">Cập nhật trang chủ</v-btn>
+
     <DialogCreateCategory
       v-if="showCreateModal"
       :is-open="showCreateModal"
       :toggle-open="toggleCreateModal"
-      @refecth="getListCategory" />
+      @refecth="fetchData" />
     <DialogEditCategory
       v-if="showEditModal"
       :is-open="showEditModal"
       :toggle-open="toggleEditModal"
       :item-edit="selectionItem"
-      @refecth="getListCategory" />
+      @refecth="fetchData" />
   </div>
 </template>

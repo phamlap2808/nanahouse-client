@@ -11,7 +11,7 @@
 
         <template #append>
           <div class="pa-2">
-            <v-btn block> Logout </v-btn>
+            <v-btn block> Logout</v-btn>
           </div>
         </template>
       </v-navigation-drawer>
@@ -21,3 +21,4 @@
     </v-layout>
   </div>
 </template>
+<script setup></script>

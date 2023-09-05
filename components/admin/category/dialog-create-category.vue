@@ -31,7 +31,10 @@
 
   const getListCategory = async () => {
     loading.value = true
-    const res = await $axios.get($endpoint.categoryList)
+    const params = new URLSearchParams({
+      raw: '1'
+    })
+    const res = await $axios.get($endpoint.categoryList, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listCategory.value = data
