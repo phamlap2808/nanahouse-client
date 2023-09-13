@@ -1,6 +1,5 @@
 interface IProduct {
   id: number
-  name: string
   category_id: number
   category_name: string
   origin_price: number
@@ -14,10 +13,6 @@ interface IProduct {
   og_description: string
   og_image: string
   og_url: string
-  twitter_title: string
-  twitter_description: string
-  twitter_image: string
-  twitter_card: string
   image: { id: number; image: string }[]
   thumbnail_id: number
   thumbnail: string
@@ -38,7 +33,4 @@ interface IProductCreate {
   og_url: string
 }
 
-export {
-  IProduct,
-  IProductCreate
-}
+export { IProduct, IProductCreate }

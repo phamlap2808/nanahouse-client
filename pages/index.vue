@@ -1,6 +1,7 @@
 <script setup lang="ts">
+  import type { ICategoryHome } from '../define/category'
   import type { IBlog } from 'define/blog'
-  import type { ICategoryHome } from 'define/category'
+  import ProductCard from '../components/product/product-card.vue'
   import { useSystemStore } from '@/store'
   import { Code } from 'define/response-code'
 
@@ -13,6 +14,7 @@
   const getCarousel = async () => {
     const params = new URLSearchParams({ status: '2' })
     const res = await $axios.get($endpoint.blogList, { params })
+    console.log('11111111111111111', res)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listCarousel.value = data.blogs_list
@@ -21,6 +23,7 @@
 
   const getListCategoryHome = async () => {
     const res = await $axios.get($endpoint.listCategoryHome)
+    console.log('22222222222222222', res)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listHomeCategory.value = data
@@ -53,15 +56,15 @@
           <h3 class="mb-4">{{ category.category_name }}</h3>
           <v-slide-group show-arrows>
             <v-slide-group-item v-for="product in category.list_products" :key="product.id">
-              <div class="bg-gray-light px-4 py-4">
-                <div class="w-full flex justify-center mb-4">
-                  <img :src="product.thumbnail" class="w-52 h-52" />
-                </div>
-                <div>
-                  <div>{{ product.product_name }}</div>
-                  <div>{{ product.origin_price }}</div>
-                </div>
-              </div>
+              <ProductCard
+                :category-id="category.category_id"
+                :category-name="category.category_name"
+                :product-name="product.product_name"
+                :product-id="product.id"
+                :friendly-price="product.friendly_price"
+                :thumbnail="product.thumbnail"
+                :original-price="product.origin_price"
+                :slug="product.og_url" />
             </v-slide-group-item>
           </v-slide-group>
         </div>

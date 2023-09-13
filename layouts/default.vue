@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import FooterDefault from 'components/layouts/footer-default.vue'
   import HeaderDefault from 'components/layouts/header-default.vue'
-
-  const drawer = ref(true)
 </script>
 <template>
   <div class="layout-default">

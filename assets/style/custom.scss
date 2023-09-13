@@ -138,6 +138,13 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
   .z-#{$i} {
     z-index: #{$i} !important;
   }
+  // flex basis
+  .basis-#{$i} {
+    flex-basis: calc(#{$i} * 4px) !important;
+  }
+  .basis-#{$i}-px {
+    flex-basis: calc(#{$i} * 1px) !important;
+  }
 }
 
 .m-auto {
