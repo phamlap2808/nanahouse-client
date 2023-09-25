@@ -9,6 +9,7 @@
 
   const loading = ref(true)
   let formData: IProductCreate = reactive({
+    SKU: '',
     title: '',
     description: '',
     category_id: null,
@@ -37,6 +38,9 @@
   const onEditProduct = async (data: IProductCreate) => {
     const form = new FormData()
     form.append('id', useRoute().params.id as string)
+    if (data.SKU !== formData.SKU) {
+      form.append('SKU', data.SKU)
+    }
     if (data.title !== formData.title) {
       form.append('title', data.title)
     }
@@ -80,7 +84,7 @@
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Chỉnh sửa sản phẩm thành công')
-      getProductDetail()
+      await getProductDetail()
     }
   }
 

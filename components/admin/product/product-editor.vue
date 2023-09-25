@@ -32,6 +32,10 @@
     { id: 1, title: 'Còn hàng' }
   ]
   const rules = {
+    SKU: [
+      (v: string) => !!v || 'Mã sản phẩm không được bỏ trống',
+      (v: string) => regexSlug.test(v) || 'Mã sản phẩm không đúng định dạng'
+    ],
     title: [(v: string) => !!v || 'Tên sản phẩm không được bỏ trống'],
     category_id: [(v: number) => !!v || 'Danh mục sản phẩm không được bỏ trống'],
     origin_price: [
@@ -182,6 +186,13 @@
           v-model="formData.title"
           :rules="rules.title"
           label="Tên sản phẩm"
+          variant="outlined"
+          class="my-2"
+          :maxlength="225" />
+        <v-text-field
+          v-model="formData.SKU"
+          :rules="rules.SKU"
+          label="Mã sản phẩm"
           variant="outlined"
           class="my-2"
           :maxlength="225" />

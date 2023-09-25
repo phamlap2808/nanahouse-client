@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <v-app id="app" class="bg-white">
+  <v-app id="app" class="bg-gray-light">
     <NuxtLayout>
       <NuxtPage :key="$route.fullPath" />
     </NuxtLayout>

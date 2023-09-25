@@ -8,6 +8,7 @@ interface IProduct {
   availability: number
   discount: number
   title: string
+  SKU: string
   description: string
   og_title: string
   og_description: string
@@ -19,6 +20,7 @@ interface IProduct {
 }
 
 interface IProductCreate {
+  SKU: string
   title: string
   description: string
   category_id: number | null

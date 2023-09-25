@@ -2,11 +2,13 @@
   import type { IProductCreate } from 'define/product'
   import ProductEditor from 'components/admin/product/product-editor.vue'
   import { Code } from 'define/response-code'
+
   definePageMeta({
     layout: 'admin'
   })
 
   const formData: IProductCreate = reactive({
+    SKU: '',
     title: '',
     description: '',
     category_id: null,
@@ -23,6 +25,9 @@
 
   const onCreateProduct = async (data: IProductCreate) => {
     const form = new FormData()
+    if (data.SKU) {
+      form.append('SKU', data.SKU)
+    }
     if (data.title) {
       form.append('title', data.title)
     }

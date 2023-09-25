@@ -21,6 +21,10 @@
   })
 
   const loading = ref(false)
+  const currentPage = ref(1)
+  const totalPage = ref(0)
+  const totalPageRecord = ref(10)
+  const totalRecord = ref(0)
 
   const headers: IDataTableHeader[] = [
     {
@@ -47,12 +51,18 @@
   const getListCategory = async () => {
     loading.value = true
     const params = new URLSearchParams({
-      raw: '0'
+      raw: '0',
+      current_page: currentPage.value.toString(),
+      page_record: totalPageRecord.value.toString()
     })
     const res = await $axios.get($endpoint.categoryList, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listCategory.value = data
+      currentPage.value = data.current_page
+      totalPage.value = data.total_page
+      totalPageRecord.value = data.total_page_record
+      totalRecord.value = data.total_record
     }
     loading.value = false
   }
@@ -84,7 +94,7 @@
     if (status && code === Code.Success) {
       $toast().success('Xóa danh mục thành công')
       showCreateModal.value = false
-      getListCategory()
+      await getListCategory()
     }
   }
 
@@ -111,7 +121,6 @@
   }
 
   const fetchData = async () => {
-    await getListCategory()
     await getListCategoryChild()
     await getListCategoryHome()
   }
@@ -129,12 +138,15 @@
     </div>
     <div v-loading="loading" class="min-h-100">
       <v-data-table
-        v-if="!loading"
+        v-model:items-per-page="totalPageRecord"
         :headers="headers"
         :items="listCategory"
         :loading="loading"
         loading-text="Tải dữ liệu"
-        class="elevation-1">
+        class="elevation-1"
+        :show-current-page="true"
+        :items-length="totalRecord"
+        @update:options="getListCategory">
         <template #item.actions="{ item }">
           <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
           <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />

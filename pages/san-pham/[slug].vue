@@ -74,6 +74,7 @@
       cartStorage[index].amount += amount
     }
     $localStorage('set', 'cart_storage', cartStorage)
+    $toast().success(`Thêm ${product.value.title} vào giỏ hàng thành công`)
   }
 
   onMounted(() => {
@@ -85,43 +86,52 @@
   <div class="product-detail py-10">
     <v-row>
       <v-col xs="12" sm="12" md="6">
-        <v-img :src="selectedImg" aspect-ratio="1" max-height="570" />
+        <v-img :src="selectedImg" aspect-ratio="1" max-height="570" :cover="true" />
         <v-sheet class="mt-4">
           <v-slide-group show-arrows>
             <v-slide-group-item v-for="(img, index) in listImages" :key="index">
-              <img
-                class="pointer max-h-20 max-w-20 w-full mr-2"
-                :src="img"
-                alt="list-img"
-                @click="handleSelectImg(img)" />
+              <div class="mr-2" :class="{ 'active-border': img === selectedImg }">
+                <img
+                  class="pointer max-w-20 w-full object-cover"
+                  :src="img"
+                  alt="list-img"
+                  @click="handleSelectImg(img)" />
+              </div>
             </v-slide-group-item>
           </v-slide-group>
         </v-sheet>
       </v-col>
       <v-col xs="12" sm="12" md="6">
-        <h1>{{ product.title }}</h1>
-        <h3>
+        <div class="fs-26 fw-700 mb-4">{{ product.title }}</div>
+        <div class="fs-22 fw-600 mb-10 text-green">
           {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.origin_price) }}
-        </h3>
-        <div>Chi tiết sản phẩm:</div>
-        <div v-html="product.description" />
+        </div>
         <div class="flex item-center">
-          <v-btn :flat="true" class="w-4 mr-4" @click="onHandleQuantity('minus')">-</v-btn>
-          <div class="max-w-20">
-            <v-text-field
-              v-model="quantity"
-              type="number"
-              variant="outlined"
-              placeholder="Số lượng"
-              :flat="true"
-              :readonly="true"
-              hide-details />
+          <v-btn
+            :flat="true"
+            max-height="30"
+            max-width="30"
+            class="mr-2"
+            icon="mdi-minus"
+            @click="onHandleQuantity('minus')" />
+          <div class="min-w-20 text-center">
+            {{ quantity }}
           </div>
-          <v-btn :flat="true" class="w-4 mx-4" @click="onHandleQuantity('plus')">+</v-btn>
+          <v-btn
+            :flat="true"
+            max-height="30"
+            max-width="30"
+            class="mx-2"
+            icon="mdi-plus"
+            @click="onHandleQuantity('plus')" />
           <v-btn class="ml-2" color="primary" @click="onHandleAddCart">Thêm vào giỏ hàng</v-btn>
         </div>
       </v-col>
     </v-row>
+    <div class="mt-10">
+      <div>Chi tiết sản phẩm:</div>
+      <div v-html="product.description" />
+    </div>
   </div>
 </template>
 

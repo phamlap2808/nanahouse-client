@@ -2,8 +2,22 @@
 @import './loading.scss';
 @import './components/index.scss';
 
+.v-btn {
+  color: #fff !important;
+  background-color: #fc6ba6 !important;
+}
+
+.v-btn-bg-white {
+  color: #fc6ba6 !important;
+  background-color: #fff !important;
+}
+
 .hide-input {
   .v-input__control {
     display: none !important;
   }
+}
+
+.product-card {
+  background-color: #fff7fc;
 }

@@ -540,9 +540,22 @@ $weights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
   text-decoration-line: none;
 }
 
+
 // border
 .border {
   border-width: 1px;
+}
+
+.border-pink {
+  border-color: #fc6ba6;
+}
+
+.active-background {
+  background-color: #fc6ba6 !important;
+}
+
+.active-border {
+  border: 1px solid #fc6ba6 !important;
 }
 
 // datepicker
