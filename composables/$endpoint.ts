@@ -38,5 +38,16 @@ export default {
   blogDelete: '/admin/blogs/delete',
 
   // permission
-  permissionList: '/permission/list'
+  permissionList: '/permission/list',
+
+  // home
+  listCategoryHome: '/home',
+  editCategoryHome: '/admin/home/edit',
+
+  // order
+  orderList: '/admin/order/list',
+  orderDetail: '/admin/order/detail',
+  orderEdit: '/admin/order/edit',
+  orderDelete: '/admin/order/delete',
+  orderPurchase: '/order/purchase'
 }
