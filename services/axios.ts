@@ -6,6 +6,13 @@ import CryptoJS from 'crypto-js'
 
 const BASE_API = import.meta.env.VITE_APP_BASE_URL
 
+export interface IResponseSuccess<T = any> {
+  code: number
+  message: string
+  status: boolean
+  data: T
+}
+
 const $axios = axios.create({
   baseURL: BASE_API,
   headers: {
@@ -35,7 +42,7 @@ const handleErrorRequest = (error: any) => {
   return Promise.reject(error)
 }
 
-const handleSuccess = (response: any) => {
+const handleSuccess = (response: AxiosResponse<IResponseSuccess, any>) => {
   return response
 }
 

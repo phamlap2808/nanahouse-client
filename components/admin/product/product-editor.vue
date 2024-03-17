@@ -75,7 +75,7 @@
     const res = await $axios.get($endpoint.categoryList)
     const { status, code, data } = res.data
     if (status && code === Code.Success) {
-      listCategory.value = data
+      listCategory.value = data.list_category
     }
   }
 
@@ -179,7 +179,7 @@
 
 <template>
   <div v-loading="loading" class="product-editor min-h-100vh p-4">
-    <div v-if="!loading">
+    <div>
       <v-form ref="Form" @submit.prevent="onSubmit">
         <h2>Thông tin sản phẩm</h2>
         <v-text-field

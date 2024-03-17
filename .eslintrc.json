@@ -1,69 +1,67 @@
 {
-    "root": true,
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:vue/vue3-recommended",
-        "plugin:json/recommended-with-comments",
-        "plugin:markdown/recommended",
-        "@nuxtjs/eslint-config-typescript",
-        "plugin:nuxt/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:vue/vue3-essential",
+    "plugin:vue/vue3-strongly-recommended",
+    "plugin:json/recommended-with-comments",
+    "plugin:markdown/recommended",
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:nuxt/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "vue"],
+  "rules": {
+    "no-unused-expressions": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-unused-vars": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/no-v-html": "warn",
+    "vue/no-unused-vars": "off",
+    "vue/require-default-prop": "off",
+    "no-console": "warn",
+    "import/namespace": "off",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
     ],
-    "parser": "vue-eslint-parser",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "parser": "@typescript-eslint/parser",
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint",
-        "vue"
-    ],
-    "rules": {
-        "no-unused-expressions": "warn",
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "no-unused-vars": "off",
-        "vue/multi-word-component-names": "off",
-        "vue/no-v-html": "warn",
-        "vue/no-unused-vars": "off",
-        "vue/require-default-prop": "off",
-        "no-console": "warn",
-        "import/namespace": "off",
-        "sort-imports": [
-            "error",
-            {
-                "ignoreCase": true,
-                "ignoreDeclarationSort": true
-            }
+    "import/order": [
+      1,
+      {
+        "groups": ["type", "index", "sibling", "parent", "internal", "external", "builtin", "object"],
+        "pathGroups": [
+          {
+            "pattern": "core/define/**",
+            "group": "type"
+          },
+          {
+            "pattern": "core/service/**",
+            "group": "builtin"
+          }
         ],
-        "import/order": [
-            1,
-            {
-                "groups": ["type", "index", "sibling", "parent", "internal", "external", "builtin", "object"],
-                "pathGroups": [
-                {
-                    "pattern": "core/define/**",
-                    "group": "type"
-                },
-                {
-                    "pattern": "core/service/**",
-                    "group": "builtin"
-                }
-                ],
-                "pathGroupsExcludedImportTypes": ["type"],
-                "alphabetize": {
-                "order": "asc",
-                "caseInsensitive": true
-                }
-            }
-        ]
-    }
+        "pathGroupsExcludedImportTypes": ["type"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }
-

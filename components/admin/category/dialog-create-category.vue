@@ -46,10 +46,9 @@
     const { valid } = await Form.value.validate()
     if (!valid) return
     const res = await $axios.post($endpoint.categoryCreate, formData)
-    const { code, status } = res.data
+    const { code, status, data } = res.data
     if (status && code === Code.Success) {
       $toast().success('Tạo danh mục thành công')
-      props.toggleOpen(false)
       emits('refecth')
     }
   }
