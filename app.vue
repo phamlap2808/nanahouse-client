@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// test
 onMounted(() => {
   const cartStorage = $localStorage('get', 'cart_storage') as {
     product_id: number
