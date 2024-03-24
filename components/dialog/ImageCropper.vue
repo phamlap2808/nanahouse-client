@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-  import BaseDialog from './base-dialog.vue'
   import { CircleStencil, RectangleStencil } from 'vue-advanced-cropper'
 
   const emits = defineEmits(['cropImage'])
@@ -52,7 +51,7 @@
   }
 </script>
 <template>
-  <BaseDialog
+  <dialog-base
     :is-open="isOpen"
     :toggle-open="toggleOpen"
     width="1000px"
@@ -70,5 +69,5 @@
           image-restriction="fit-area" />
       </div>
     </template>
-  </BaseDialog>
+  </dialog-base>
 </template>

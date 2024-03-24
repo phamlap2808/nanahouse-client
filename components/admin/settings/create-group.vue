@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import BaseDialog from 'components/dialog/base-dialog.vue'
   import { permissions } from 'define/permissions'
   import { Code } from 'define/response-code'
 
@@ -42,7 +41,7 @@
   }
 </script>
 <template>
-  <BaseDialog
+  <dialog-base
     :is-open="isOpen"
     :toggle-open="toggleOpen"
     width="640px"
@@ -71,5 +70,5 @@
         </v-form>
       </div>
     </template>
-  </BaseDialog>
+  </dialog-base>
 </template>

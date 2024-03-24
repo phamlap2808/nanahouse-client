@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import type { ICategoryNode } from '../../define/category'
-  import type { IProduct } from '../../define/product'
+  import type { ICategoryNode } from 'define/category'
+  import type { IProduct } from 'define/product'
   import { useCategoryStore } from '../../store'
-  import CategoryTree from 'components/category/category-tree.vue'
   import { Code } from 'define/response-code'
 
   const listCategory = ref<ICategoryNode[]>([])
   const listProduct = ref<IProduct[]>([])
+  const loading = ref(true)
 
   const categorySelected = computed({
     get(): { category_id: number; category_name: string } {
@@ -17,42 +17,49 @@
     }
   })
 
-  const getListCategory = () => {
+  const getListCategory = async () => {
     const params = new URLSearchParams({
       raw: '1'
     })
-    $axios
-      .get($endpoint.categoryList, { params })
-      .then((res) => {
-        const { code, status, data } = res.data
-        if (status && code === Code.Success) {
-          listCategory.value = data
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    const res = await $axios.get($endpoint.categoryList, { params })
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      listCategory.value = data
+      categorySelected.value = {
+        category_id: data[0].sub_category[0].sub_category_id,
+        category_name: data[0].sub_category[0].sub_category_name
+      }
+    }
   }
 
   const getProductByCategory = async (categoryId: number) => {
+    loading.value = true
     const params = new URLSearchParams({
-      sub_category_id: categoryId.toString()
+      category_id: categoryId.toString()
     })
-    const res = await $axios.get($endpoint.productList, { params })
-    const { code, status, data } = res.data
-    if (status && code === Code.Success) {
-      listProduct.value = data.products_list
+    try {
+      const res = await $axios.get($endpoint.productList, { params })
+      const { code, status, data } = res.data
+      if (status && code === Code.Success) {
+        listProduct.value = data.products_list
+      }
+    } finally {
+      loading.value = false
     }
   }
 
-  watch(categorySelected.value, () => {
-    if (categorySelected.value.category_id) {
-      getProductByCategory(categorySelected.value.category_id)
+  watch(
+    () => categorySelected.value.category_id,
+    (id) => {
+      if (id) {
+        getProductByCategory(id)
+      }
     }
-  })
+  )
 
-  onMounted(() => {
-    getListCategory()
+  onMounted(async () => {
+    await getListCategory()
+    await getProductByCategory(categorySelected.value.category_id)
   })
 </script>
 
@@ -61,21 +68,23 @@
     <v-col xs="12" sm="12" md="4" lg="3">
       <h3 class="mb-4">Danh mục sản phẩm</h3>
       <hr />
-      <CategoryTree :tree-data="listCategory" />
+      <category-tree :tree-data="listCategory" />
     </v-col>
     <v-col xs="12" sm="12" md="8" lg="9">
       <h2 class="mb-10">{{ categorySelected.category_name }}</h2>
-      <div class="flex flex-wrap">
-        <div v-for="product in listProduct" :key="product.id">
-          <ProductCard
-            :category-id="product.category_id"
-            :category-name="product.category_name"
-            :product-name="product.title"
-            :product-id="product.id"
-            :friendly-price="product.friendly_price"
-            :thumbnail="product.thumbnail"
-            :original-price="product.origin_price"
-            :slug="product.og_url" />
+      <div v-loading="loading" class="min-h-100">
+        <div v-if="!loading" class="flex flex-wrap">
+          <div v-for="product in listProduct" :key="product.id">
+            <ProductCard
+              :category-id="product.category_id"
+              :category-name="product.category_name"
+              :product-name="product.title"
+              :product-id="product.id"
+              :friendly-price="product.friendly_price"
+              :thumbnail="product.thumbnail"
+              :original-price="product.origin_price"
+              :slug="product.og_url" />
+          </div>
         </div>
       </div>
     </v-col>

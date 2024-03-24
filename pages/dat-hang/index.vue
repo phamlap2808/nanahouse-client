@@ -76,7 +76,7 @@
     if (status && code === Code.Success) {
       $toast().success('Đặt hàng thành công')
       $localStorage('remove', 'cart_storage')
-      // navigateTo({ name: 'home' })
+      navigateTo({ name: 'home' })
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { ICategoryNode } from '../../define/category'
-  import CategoryTreeView from './category-tree-view.vue'
+  import type { ICategoryNode } from 'define/category'
+  import TreeView from './tree-view.vue'
 
   const props = defineProps({
     treeData: Array as () => ICategoryNode[]
@@ -9,7 +9,7 @@
 
 <template>
   <div>
-    <CategoryTreeView :nodes="props.treeData" />
+    <TreeView :nodes="props.treeData" />
   </div>
 </template>
 

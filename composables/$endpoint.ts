@@ -49,5 +49,11 @@ export default {
   orderDetail: '/admin/order/detail',
   orderEdit: '/admin/order/edit',
   orderDelete: '/admin/order/delete',
-  orderPurchase: '/order/purchase'
+  orderPurchase: '/order/purchase',
+
+  // bill
+  createBill: 'admin/bill/create',
+  listBill: 'admin/bill/list',
+  detailBill: 'admin/bill/detail',
+  editBill: 'admin/bill/edit'
 }

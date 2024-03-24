@@ -1,30 +1,32 @@
 <script setup lang="ts">
-  import type { IProduct } from '../../define/product'
-  import { Code } from '../../define/response-code'
+  import type { IProduct } from 'define/product'
+  import { Code } from 'define/response-code'
 
   const slug = useRoute().params.slug as string
 
   const selectedImg = ref<string>('')
   const quantity = ref<number>(1)
   const product = ref<IProduct>({
-    title: '',
-    description: '',
+    id: 0,
     category_id: 0,
+    category_name: '',
     origin_price: 0,
     friendly_price: 0,
     quantity: 0,
-    availability: 1,
-    thumbnail: '',
-    image: [],
+    availability: 0,
+    discount: 0,
+    title: '',
+    SKU: '',
+    description: '',
     og_title: '',
     og_description: '',
-    og_url: '',
-    id: 0,
-    category_name: '',
-    discount: 0,
     og_image: '',
-    thumbnail_id: 0
+    og_url: '',
+    image: [],
+    thumbnail_id: 0,
+    thumbnail: ''
   })
+
   const listImages = ref<string[]>([])
   const getProductDetail = async () => {
     listImages.value = []

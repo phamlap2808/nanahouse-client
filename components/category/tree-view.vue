@@ -16,6 +16,7 @@
   })
 
   const handleCategory = (item: { sub_category_id: number; sub_category_name: string }) => {
+    console.log(item)
     categorySelected.value.category_id = item.sub_category_id
     categorySelected.value.category_name = item.sub_category_name
   }

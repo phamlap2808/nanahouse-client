@@ -1,3 +1,11 @@
+interface IOrder {
+  order_id: number
+  product_id: number
+  product_name: string
+  price: number
+  amount: number
+}
+
 interface IListPurchase {
   cart_id: number
   cart_status: number
@@ -9,13 +17,7 @@ interface IListPurchase {
     phone_number: string
     email: string
   }
-  orders: {
-    order_id: number
-    product_id: number
-    product_name: string
-    price: number
-    amount: number
-  }[]
+  orders: IOrder[]
   total_amount: number
 }
 
@@ -27,4 +29,4 @@ interface IOrderList {
   list_purchase: IListPurchase[]
 }
 
-export { IOrderList, IListPurchase }
+export { IOrderList, IListPurchase, IOrder }

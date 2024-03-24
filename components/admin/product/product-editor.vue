@@ -2,7 +2,6 @@
   import type { ISubCategory } from 'define/category'
   import type { IProductCreate } from 'define/product'
   import type { PropType } from 'vue'
-  import ImageCropper from 'components/dialog/ImageCropper.vue'
   import { regexSlug } from 'constant/regex'
   import { Code } from 'define/response-code'
 
@@ -24,8 +23,6 @@
   const loading = ref(true)
   const uploadThumbnail = ref()
   const uploadListImage = ref()
-  const imgCropper = ref<string>('')
-  const isOpenImgCropper = ref(false)
   const listCategory = ref<ISubCategory[]>()
   const availabilityList = [
     { id: 0, title: 'Hết hàng' },
@@ -54,13 +51,6 @@
       (v: string) => !!v || 'Tình trạng sản phẩm không được bỏ trống',
       (v: string) => regexSlug.test(v) || 'Slug không đúng định dạng'
     ]
-  }
-
-  const toggleOpenImgCropper = (value: boolean) => {
-    if (!value) {
-      imgCropper.value = ''
-    }
-    isOpenImgCropper.value = value
   }
 
   const onUploadThumbnail = () => {
@@ -93,8 +83,7 @@
         $toast().error('Hình ảnh không được qua 5mb')
         return
       }
-      imgCropper.value = URL.createObjectURL(file)
-      isOpenImgCropper.value = true
+      formData.thumbnail = file
     }
   }
 
@@ -116,13 +105,6 @@
         formData.image.push(item)
       })
     }
-  }
-
-  const CropImage = (canvas: HTMLCanvasElement) => {
-    imgCropper.value = ''
-    canvas.toBlob((blob: any) => {
-      formData.thumbnail = blob
-    })
   }
 
   const loadImg = (img: string | Blob | { id: number; image: string }) => {
@@ -302,16 +284,6 @@
           </v-btn>
         </div>
       </v-form>
-      <ImageCropper
-        v-if="isOpenImgCropper && imgCropper"
-        :is-open="isOpenImgCropper"
-        :toggle-open="toggleOpenImgCropper"
-        :img-src="imgCropper"
-        :stencil="{
-          aspectRatio: 1 / 1
-        }"
-        stencil-type="rectangle"
-        @crop-image="CropImage" />
     </div>
   </div>
 </template>

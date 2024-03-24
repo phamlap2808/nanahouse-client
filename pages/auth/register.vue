@@ -40,7 +40,7 @@
       email: formData.email,
       password: formData.password,
       name: formData.name,
-      birthday: $date.datePickerFormat(formData.birthday),
+      birthday: $helper.datePickerFormat(formData.birthday),
       phone: formData.phone
     }
     const res = await $axios.post($endpoint.register, data)

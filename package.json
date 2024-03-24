@@ -42,6 +42,7 @@
     "@vuepic/vue-datepicker": "^5.4.0",
     "@vueup/vue-quill": "^1.2.0",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.10",
     "dayjs-nuxt": "^1.1.2",
     "pinia": "^2.1.4",
     "shvl": "^3.0.0",

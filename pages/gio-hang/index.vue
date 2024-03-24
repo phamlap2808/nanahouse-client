@@ -34,8 +34,8 @@
     return total
   })
 
-  const onRedirectToHomePage = () => {
-    navigateTo({ name: 'index' })
+  const onRedirect = (name) => {
+    navigateTo({ name })
   }
 
   const handleAmountOnCart = computed(() => {
@@ -59,7 +59,6 @@
     if (temp) {
       cartStorage.value = temp
     }
-    console.log('cartStorage', cartStorage.value)
     loading.value = false
   })
 </script>
@@ -67,7 +66,7 @@
 <template>
   <div class="container py-10">
     <h2 class="text-center mb-4">Giỏ hàng</h2>
-    <div v-if="!loading">
+    <div v-if="!loading && cartStorage.length > 0">
       <div class="px-2 py-2 rounded bg-white">
         <div v-for="item in cartStorage" :key="item.product_id" class="flex pt-4 items-center gap-4 border-bottom">
           <div class="w-25">
@@ -125,9 +124,13 @@
         </div>
       </div>
       <div class="mt-4 flex justify-between item-center">
-        <v-btn :flat="true" variant="outlined" @click="onRedirectToHomePage">Tiếp tục mua hàng</v-btn>
-        <v-btn :flat="true" variant="outlined">Tiến hành đặt hàng</v-btn>
+        <v-btn :flat="true" variant="outlined" @click="onRedirect('index')">Tiếp tục mua hàng</v-btn>
+        <v-btn :flat="true" variant="outlined" @click="onRedirect('dat-hang')">Tiến hành đặt hàng</v-btn>
       </div>
+    </div>
+    <div v-if="!loading && cartStorage.length === 0" class="flex flex-col">
+      <div class="min-h-100 flex justify-center item-center">Giỏ hàng trống</div>
+      <v-btn :flat="true" variant="outlined" @click="onRedirect('index')">Vè trang chủ</v-btn>
     </div>
   </div>
 </template>

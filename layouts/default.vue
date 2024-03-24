@@ -1,10 +1,7 @@
-<script setup lang="ts">
-  import FooterDefault from 'components/layouts/footer-default.vue'
-  import HeaderDefault from 'components/layouts/header-default.vue'
-</script>
+<script setup lang="ts"></script>
 <template>
   <div class="layout-default">
-    <HeaderDefault />
+    <layouts-header-default />
     <v-layout class="min-h-150">
       <!-- <v-navigation-drawer v-model="drawer" permanent>
         <v-list density="compact" nav>
@@ -18,6 +15,6 @@
         </div>
       </v-main>
     </v-layout>
-    <FooterDefault />
+    <layouts-footer-default />
   </div>
 </template>

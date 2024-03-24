@@ -8,6 +8,10 @@
     return total
   })
 
+  const redirect = (name: string) => {
+    return navigateTo({ name })
+  }
+
   onMounted(() => {
     const temp = $localStorage('get', 'cart_storage') as {
       product_id: number
@@ -47,7 +51,7 @@
           </div>
           <div>
             <v-badge color="error" :content="countAllProduct">
-              <v-icon icon="mdi-cart-heart" size="40" />
+              <v-icon icon="mdi-cart-heart" size="40" @click="redirect('gio-hang')" />
             </v-badge>
           </div>
           <div>
@@ -67,12 +71,12 @@
     </div>
     <div class="header-default__navigation">
       <div class="flex item-center justify-between container mx-auto">
-        <div>Trang chủ</div>
-        <div>Sản phẩm</div>
-        <div>Bài viết</div>
-        <div>Video</div>
-        <div>Giới thiệu</div>
-        <div>Liên hệ</div>
+        <div class="pointer" @click="redirect('index')">Trang chủ</div>
+        <div class="pointer" @click="redirect('danh-muc')">Sản phẩm</div>
+        <div class="pointer" @click="redirect('bai-viet')">Bài viết</div>
+        <div class="pointer" @click="redirect('video')">Video</div>
+        <div class="pointer" @click="redirect('gioi-thieu')">Giới thiệu</div>
+        <div class="pointer" @click="redirect('lien-he')">Liên hệ</div>
       </div>
     </div>
   </div>
