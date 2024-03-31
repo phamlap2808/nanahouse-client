@@ -44,7 +44,9 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.10",
     "dayjs-nuxt": "^1.1.2",
+    "html2pdf.js": "^0.10.1",
     "pinia": "^2.1.4",
+    "print-js": "^1.6.0",
     "shvl": "^3.0.0",
     "vue-advanced-cropper": "^2.8.8",
     "vuetify": "^3.3.8"

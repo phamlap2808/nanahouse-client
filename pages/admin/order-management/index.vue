@@ -134,7 +134,7 @@
 </script>
 
 <template>
-  <div class="order-management p-4">
+  <div class="order-management m-10 px-4 py-10 bg-white rounded-3xl">
     <h1>Quản lý đơn hàng</h1>
     <div v-loading="loading" class="min-h-100 mt-4">
       <v-data-table-server

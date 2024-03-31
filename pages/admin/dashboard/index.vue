@@ -4,5 +4,8 @@
   })
 </script>
 <template>
-  <div>Hello</div>
+  <div>
+    <div>Bán hàng</div>
+    <div></div>
+  </div>
 </template>

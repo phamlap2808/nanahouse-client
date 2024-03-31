@@ -152,7 +152,7 @@
 </script>
 
 <template>
-  <div class="category-page p-4">
+  <div class="category-page m-10 px-4 py-10 bg-white rounded-3xl">
     <h1>Quản lý danh mục</h1>
     <div class="flex justify-end mb-4">
       <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo danh mục</v-btn>
@@ -187,7 +187,9 @@
       :multiple="true"
       item-title="category_name"
       item-value="category_id" />
-    <v-btn @click="HandleListCategoryHome">Cập nhật trang chủ</v-btn>
+    <div class="flex w-full justify-end">
+      <v-btn @click="HandleListCategoryHome">Cập nhật trang chủ</v-btn>
+    </div>
 
     <admin-category-dialog-create-category
       v-if="showCreateModal"

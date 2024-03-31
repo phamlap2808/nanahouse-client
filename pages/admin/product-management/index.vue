@@ -111,9 +111,9 @@
 </script>
 
 <template>
-  <div class="product-page p-4">
+  <div class="product-page m-10 px-4 py-10 bg-white rounded-3xl">
     <h1>Quản lý sản phẩm</h1>
-    <div class="flex justify-end mb4">
+    <div class="flex justify-end mb-4">
       <v-btn type="submit" variant="outlined" class="text-center" @click="redirectCreateProduct">Tạo sản phẩm</v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
