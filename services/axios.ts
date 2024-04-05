@@ -4,7 +4,7 @@ import { Code } from 'define/response-code'
 import axios from 'axios'
 import CryptoJS from 'crypto-js'
 
-const BASE_API = import.meta.env.VITE_APP_BASE_URL
+const BASE_API = import.meta.env.VITE_APP_BASE_URL || 'http://54.251.104.42:8000/api'
 
 export interface IResponseSuccess<T = any> {
   code: number
@@ -47,6 +47,7 @@ const handleSuccess = (response: AxiosResponse<IResponseSuccess, any>) => {
 }
 
 const handleErrorResponse = (error: ErrorApi) => {
+  console.log('error', error)
   const status = error.response.status
   const message = error.response.data.message
   const token = $cookie('token')
