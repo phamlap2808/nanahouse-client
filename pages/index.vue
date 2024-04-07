@@ -2,8 +2,8 @@
   import type { ICategoryHome } from '../define/category'
   import type { IBlog } from 'define/blog'
   import ProductCard from '../components/product/product-card.vue'
-  import { useSystemStore } from '@/store'
   import { Code } from 'define/response-code'
+  import { useSystemStore } from '@/store'
 
   const systemStore = useSystemStore()
   const loading = ref(true)

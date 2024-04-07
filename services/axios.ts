@@ -47,7 +47,6 @@ const handleSuccess = (response: AxiosResponse<IResponseSuccess, any>) => {
 }
 
 const handleErrorResponse = (error: ErrorApi) => {
-  console.log('error', error)
   const status = error.response.status
   const message = error.response.data.message
   const token = $cookie('token')

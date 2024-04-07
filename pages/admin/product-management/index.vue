@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { IDataTableHeader } from 'define/data-table'
-  import { IProduct } from 'define/product'
+  import type { IDataTableHeader } from 'define/data-table'
+  import type { IProduct } from 'define/product'
   import { Code } from 'define/response-code'
 
   definePageMeta({
