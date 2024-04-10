@@ -13,6 +13,8 @@ const monthNames = [
   'Tháng 11',
   'Tháng 12'
 ]
+const token = $cookie('token')
+const isAdmin = $cookie('group_id')
 export default {
   twoDigitPad(num: any) {
     return num < 10 ? '0' + num : num
@@ -74,5 +76,11 @@ export default {
   },
   isBlob(value: any): value is Blob {
     return value instanceof Blob
+  },
+  isLogin() {
+    return !!token.value;
+  },
+  isAdmin() {
+    return isAdmin.value === 2
   }
 }

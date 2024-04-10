@@ -123,7 +123,7 @@
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Xóa danh mục thành công')
-      getOrderList()
+      await getOrderList()
     }
   }
 

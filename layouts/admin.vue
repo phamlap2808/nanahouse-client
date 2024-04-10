@@ -14,6 +14,7 @@
       <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="layout-admin__navigation">
         <v-list>
           <v-list-item prepend-icon="mdi-menu" @click="rail = !rail" />
+          <v-list-item prepend-icon="mdi-home" @click="navigateTo({ name: 'index' })" />
         </v-list>
         <v-divider />
         <v-list color="transparent">

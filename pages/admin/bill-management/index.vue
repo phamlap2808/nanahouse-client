@@ -64,14 +64,26 @@
     if (status && code === Code.Success) {
       listBill.length = 0
 
-      listBill.push(...data.list_billl)
-      console.log(listBill)
+      listBill.push(...data.list_bill)
       currentPage.value = data.current_page
       totalPage.value = data.total_page
       totalPageRecord.value = data.total_page_record
       totalRecord.value = data.total_record
     }
     loading.value = false
+  }
+
+  const changeStatusBill = async (id: number) => {
+    const formData = {
+      bill_id: id,
+      status: 1
+    }
+    const res = await $axios.put($endpoint.editBill, formData)
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xuất hóa đơn thành công')
+      await getList()
+    }
   }
 </script>
 <template>
@@ -91,7 +103,7 @@
         {{ item.raw.bill_status === 1 ? 'Đã thanh toán' : 'Chưa thanh toán' }}
       </template>
       <template #item.view_detail="{ item }">
-        <v-icon size="small" icon="mdi-eye" />
+        <v-btn v-if="item.raw.bill_status === 0"  @click="changeStatusBill(item.raw.bill_id)">Xác nhận thanh toán</v-btn>
       </template>
     </v-data-table-server>
   </div>

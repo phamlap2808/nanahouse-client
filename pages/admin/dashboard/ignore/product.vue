@@ -72,6 +72,7 @@ const onHandleAddCart = () => {
   &__header {
     display: flex;
     padding: 16px;
+    justify-content: center;
     &--image {
       max-width: 200px;
       max-height: 200px;

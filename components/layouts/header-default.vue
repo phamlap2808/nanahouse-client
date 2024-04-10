@@ -12,6 +12,17 @@
     return navigateTo({ name })
   }
 
+  const redirectUser = () => {
+    if (!isLogin) {
+      return navigateTo({ name: 'auth-login' })
+    }
+    if (isAdmin) {
+      return navigateTo({ name: 'admin-dashboard' })
+    }
+  }
+
+  const { isLogin, isAdmin } = $helper
+
   onMounted(() => {
     const temp = $localStorage('get', 'cart_storage') as {
       product_id: number
@@ -38,7 +49,7 @@
             auto-select-first
             class="flex-full-width"
             density="comfortable"
-            item-props
+            :item-props="true"
             placeholder="Tìm kiếm"
             rounded
             hide-details
@@ -47,25 +58,26 @@
         </div>
         <div class="header-default__main-icons flex gap-2 w-30">
           <div>
-            <v-icon icon="mdi-account-outline" size="40" />
+            <v-icon v-if="!isLogin || isAdmin" icon="mdi-account-outline" size="40" @click="redirectUser" />
           </div>
           <div>
-            <v-badge color="error" :content="countAllProduct">
+            <v-icon v-if="countAllProduct === 0" icon="mdi-cart-heart" size="40" @click="redirect('gio-hang')" />
+            <v-badge v-else color="error" :content="countAllProduct">
               <v-icon icon="mdi-cart-heart" size="40" @click="redirect('gio-hang')" />
             </v-badge>
           </div>
-          <div>
-            <v-icon icon="mdi-heart-outline" size="40" />
-          </div>
+<!--          <div>-->
+<!--            <v-icon icon="mdi-heart-outline" size="40" />-->
+<!--          </div>-->
         </div>
       </div>
       <div></div>
       <div class="header-default__main-mobile">
         <v-icon icon="mdi-menu" size="40" />
         <div class="header-default__main-mobile-icons gap-4 w-30">
-          <v-icon icon="mdi-account-outline" size="40" />
+          <v-icon v-if="!isLogin || isAdmin" icon="mdi-account-outline" size="40" @click="redirectUser" />
           <v-icon icon="mdi-cart-outline" size="40" />
-          <v-icon icon="mdi-heart-outline" size="40" />
+<!--          <v-icon icon="mdi-heart-outline" size="40" />-->
         </div>
       </div>
     </div>

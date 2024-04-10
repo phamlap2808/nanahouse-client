@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useDashboardStore } from '../../../../store'
+  import { Code } from 'define/response-code'
   interface ICart {
     adminCart: {
       product_id: number
@@ -61,21 +62,42 @@
     }
   }
 
-  const onSubmit = () => {
-    cart.value.length = 0
-    // cart.value.forEach((item) => {
-    //   formData.order.push({
-    //     product_id: item.product_id,
-    //     price: item.price,
-    //     amount: item.amount
-    //   })
-    // })
-    // const res = await $axios.post($endpoint.orderPurchase, formData)
-    // const { code, status } = res.data
-    // if (status && code === Code.Success) {
-    //   $toast().success('Đặt hàng thành công')
-    //   cart.value.length = 0
-    // }
+  const changeStatusBill = async (id: number) => {
+    const formData = {
+      bill_id: id,
+      status: 1
+    }
+    const res = await $axios.put($endpoint.editBill, formData)
+    const { code, status } = res.data
+    if (status && code === Code.Success) {
+      $toast().success('Xuất hóa đơn thành công')
+      cart.value = []
+    }
+  }
+
+  const createBill = async (id: number) => {
+    const formData = new FormData()
+    formData.append('cart_id', id.toString())
+    const res = await $axios.post($endpoint.createBill, formData)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      await changeStatusBill(data.bill_id)
+    }
+  }
+
+  const onSubmit = async () => {
+    cart.value.forEach((item) => {
+      formData.order.push({
+        product_id: item.product_id,
+        price: item.price,
+        amount: item.amount
+      })
+    })
+    const res = await $axios.post($endpoint.orderPurchase, formData)
+    const { code, status, data } = res.data
+    if (status && code === Code.Success) {
+      await createBill(data.cart_id)
+    }
   }
 </script>
 

@@ -14,7 +14,7 @@
   const listSearch = ref<IProduct[]>([])
   const currentPage = ref(1)
   const totalPage = ref(0)
-  const totalPageRecord = ref(3)
+  const totalPageRecord = ref(9)
   const totalRecord = ref(0)
   const category = ref(0)
   const search = ref('')
@@ -79,6 +79,10 @@
     await getListProduct()
   })
 
+  watch(currentPage, async () => {
+    await getListProduct()
+  })
+
   watch(() => search.value, async () => {
     await getListSearch()
     // $lodash.debounce(async () => {
@@ -91,21 +95,21 @@
     <div class="dashboard-page-wrapper">
       <div class="dashboard-page-wrapper__header">
         <v-icon icon="mdi-menu" size="x-large" class="pointer" @click="isHideCategory = !isHideCategory" />
-<!--        <div class="dashboard-page-wrapper__header-search">-->
-<!--          <v-autocomplete-->
-<!--            v-model:search-input="searchInput"-->
-<!--            :items="listSearch"-->
-<!--            label="Autocomplete"-->
-<!--            variant="outlined"-->
-<!--            hide-details-->
-<!--            @update:search-input="getListSearch"-->
-<!--          />-->
-<!--        </div>-->
-<!--        <div class="dashboard-page-wrapper__header-filter">-->
-<!--          <div class="w-50 flex justify-end">-->
-<!--            <v-select variant="outlined" hide-details />-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="dashboard-page-wrapper__header-search">
+          <v-autocomplete
+            v-model:search-input="searchInput"
+            :items="listSearch"
+            label="Autocomplete"
+            variant="outlined"
+            hide-details
+            @update:search-input="getListSearch"
+          />
+        </div>
+        <div class="dashboard-page-wrapper__header-filter">
+          <div class="w-50 flex justify-end">
+            <v-select variant="outlined" hide-details />
+          </div>
+        </div>
       </div>
       <div class="dashboard-page-wrapper__body">
         <div v-if="isHideCategory" class="dashboard-page-wrapper__body-category">
@@ -122,14 +126,15 @@
             </div>
           </div>
         </div>
-        <div class="dashboard-page-wrapper__body-product">
+        <div v-if="!loading" class="dashboard-page-wrapper__body-product">
           <div class="dashboard-page-wrapper__body-product--list">
             <Product v-for="product in listProduct" :key="product.id" :product="product" />
           </div>
-          <div v-if="!loading" class="dashboard-page-wrapper__body-product--pagination">
+          <div class="dashboard-page-wrapper__body-product--pagination">
             <v-pagination
               v-model="currentPage"
               :length="totalPage"
+              :total-visible="7"
             />
           </div>
         </div>

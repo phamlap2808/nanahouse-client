@@ -32,9 +32,9 @@
         ) || 'Số điện thoại không đúng định dạnh'
     ],
     email: [
-      (v: string) => !!v || 'Email không được bỏ trống',
       (v: string) => /.+@.+\..+/.test(v) || 'Email không đúng định dạng'
-    ]
+    ],
+    address: [(v: string) => !!v || 'Địa chỉ không được bỏ trống']
   }
 
   const handleTotalPriceOnCart = computed(() => {
@@ -107,13 +107,13 @@
               <div class="checkout-shipping__body__left__form__item">
                 <div class="checkout-shipping__body__left__form__item__label">Email</div>
                 <div class="checkout-shipping__body__left__form__item__input">
-                  <v-text-field v-model="formData.email" :flat="true" variant="outlined" />
+                  <v-text-field v-model="formData.email" :rules="rules.email" :flat="true" variant="outlined" />
                 </div>
               </div>
               <div class="checkout-shipping__body__left__form__item">
                 <div class="checkout-shipping__body__left__form__item__label">Địa chỉ</div>
                 <div class="checkout-shipping__body__left__form__item__input">
-                  <v-text-field v-model="formData.address" :flat="true" variant="outlined" />
+                  <v-text-field v-model="formData.address" :rules="rules.address" :flat="true" variant="outlined" />
                 </div>
               </div>
             </div>

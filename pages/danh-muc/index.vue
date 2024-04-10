@@ -7,6 +7,10 @@
   const listCategory = ref<ICategoryNode[]>([])
   const listProduct = ref<IProduct[]>([])
   const loading = ref(true)
+  const currentPage = ref(1)
+  const totalPage = ref(0)
+  const totalPageRecord = ref(10)
+  const totalRecord = ref(0)
 
   const categorySelected = computed({
     get(): { category_id: number; category_name: string } {
@@ -35,13 +39,19 @@
   const getProductByCategory = async (categoryId: number) => {
     loading.value = true
     const params = new URLSearchParams({
-      category_id: categoryId.toString()
+      category_id: categoryId.toString(),
+      current_page: currentPage.value.toString(),
+      page_record: totalPageRecord.value.toString()
     })
     try {
       const res = await $axios.get($endpoint.productList, { params })
       const { code, status, data } = res.data
       if (status && code === Code.Success) {
         listProduct.value = data.products_list
+        currentPage.value = data.current_page
+        totalPage.value = data.total_page
+        totalPageRecord.value = data.total_page_record
+        totalRecord.value = data.total_record
       }
     } finally {
       loading.value = false
@@ -56,6 +66,10 @@
       }
     }
   )
+
+  watch(currentPage, async () => {
+    await getListProduct(categorySelected.value.category_id)
+  })
 
   onMounted(async () => {
     await getListCategory()
@@ -72,7 +86,7 @@
     </v-col>
     <v-col xs="12" sm="12" md="8" lg="9">
       <h2 class="mb-10">{{ categorySelected.category_name }}</h2>
-      <div v-loading="loading" class="min-h-100">
+      <div v-loading="loading" class="min-h-100 flex flex-col gap-4">
         <div v-if="!loading" class="flex flex-wrap">
           <div v-for="product in listProduct" :key="product.id">
             <ProductCard
@@ -86,6 +100,11 @@
               :slug="product.og_url" />
           </div>
         </div>
+        <v-pagination
+          v-model="currentPage"
+          :length="totalPage"
+          :total-visible="7"
+        />
       </div>
     </v-col>
   </v-row>
