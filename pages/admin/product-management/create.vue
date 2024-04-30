@@ -8,7 +8,7 @@
   })
 
   const formData: IProductCreate = reactive({
-    SKU: '',
+    sku: '',
     title: '',
     description: '',
     category_id: null,
@@ -17,16 +17,17 @@
     quantity: null,
     availability: 1,
     thumbnail: '',
-    image: [],
+    images: [],
     og_title: '',
     og_description: '',
-    og_url: ''
+    og_url: '',
+    variant_id: ''
   })
 
   const onCreateProduct = async (data: IProductCreate) => {
     const form = new FormData()
-    if (data.SKU) {
-      form.append('SKU', data.SKU)
+    if (data.sku) {
+      form.append('sku', data.sku)
     }
     if (data.title) {
       form.append('title', data.title)
@@ -61,15 +62,18 @@
     if (data.og_url) {
       form.append('og_url', data.og_url)
     }
-    if (data.image.length > 0) {
-      data.image.forEach((item: any, index: number) => {
-        form.append(`image[${index}]`, item)
+    if (data.variant_id) {
+      form.append('variant_id', data.variant_id.toString())
+    }
+    if (data.images.length > 0) {
+      data.images.forEach((item: any, index: number) => {
+        form.append(`images`, item)
       })
     }
 
     const res = await $axios.post($endpoint.productCreate, form)
     const { code, status } = res.data
-    if (status && code === Code.Success) {
+    if (status && code === 201) {
       $toast().success('Tạo sản phẩm thành công')
     }
   }
@@ -81,3 +85,12 @@
     <ProductEditor :data="formData" mode="create" @create="onCreateProduct" />
   </div>
 </template>
+
+<style scoped lang="scss">
+  .product-create {
+    margin: 40px;
+    padding: 24px;
+    border-radius: 24px;
+    background-color: #fff;
+  }
+</style>

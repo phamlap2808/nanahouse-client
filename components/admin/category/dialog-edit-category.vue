@@ -15,7 +15,7 @@
       required: true
     },
     itemEdit: {
-      type: Object as PropType<{ category_id: number; category_name: string; parent_id: number | null }>,
+      type: Object as PropType<{ category_id: number; category_name: string; parent: any, sort: number }>,
       required: true
     }
   })
@@ -28,7 +28,8 @@
   const formData = reactive({
     category_id: props.itemEdit.category_id,
     category_name: props.itemEdit.category_name,
-    parent_id: props.itemEdit.parent_id
+    parent_id: props.itemEdit.parent ? props.itemEdit.parent._id : null,
+    sort: props.itemEdit.sort
   })
 
   const rules = {
@@ -37,16 +38,13 @@
 
   const getListCategory = async () => {
     loading.value = true
-    const params = new URLSearchParams({
-      raw: '1'
-    })
-    const res = await $axios.get($endpoint.categoryList, { params })
+    const res = await $axios.get($endpoint.categoryAll)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      const temp: ICategory[] = data
-      temp.forEach((item: ICategory) => {
-        if (formData.category_id !== item.category_id) {
-          listCategory.value.push(item)
+      listCategory.value = data.map((item: any) => {
+        return {
+          category_id: item._id,
+          category_name: item.name
         }
       })
     }
@@ -56,11 +54,11 @@
   const onSubmit = async () => {
     const { valid } = await Form.value.validate()
     if (!valid) return
-    const data = { category_id: formData.category_id, name: formData.category_name }
+    const data = { name: formData.category_name, sort: formData.sort }
     if (props.itemEdit.parent_id !== formData.parent_id) {
       Object.assign(data, { parent_id: formData.parent_id })
     }
-    const res = await $axios.put($endpoint.categoryEdit, data)
+    const res = await $axios.put($endpoint.categoryEdit.replace(':id', formData.category_id.toString()), data)
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Chỉnh sửa danh mục thành công')
@@ -100,6 +98,13 @@
             item-value="category_id"
             variant="outlined"
             class="mt-4" />
+          <v-text-field
+            v-model="formData.sort"
+            :rules="rules.sort"
+            label="Thứ tự"
+            variant="outlined"
+            class="mt-2"
+            type="number"/>
         </v-form>
       </div>
     </template>

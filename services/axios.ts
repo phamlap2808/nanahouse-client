@@ -1,8 +1,8 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { ENCRYPT_SIGNATURE } from 'constant/common'
-import { Code } from 'define/response-code'
 import axios from 'axios'
+import { ENCRYPT_SIGNATURE } from 'constant/common'
 import CryptoJS from 'crypto-js'
+import { Code } from 'define/response-code'
 
 const BASE_API = import.meta.env.VITE_APP_BASE_URL || 'http://54.251.104.42:8000/api'
 
@@ -25,13 +25,11 @@ const $axios = axios.create({
 
 const handleRequest = (config: AxiosRequestConfig) => {
   const token = $cookie('token')
-
   if (token.value) {
-    const tokenBytes = CryptoJS.AES.decrypt(token.value, ENCRYPT_SIGNATURE)
-    const decryptedToken = JSON.parse(tokenBytes.toString(CryptoJS.enc.Utf8))
-
+    // const tokenBytes = CryptoJS.AES.decrypt(token.value, ENCRYPT_SIGNATURE)
+    // const decryptedToken = tokenBytes.toString(CryptoJS.enc.Utf8)
     config.headers = {
-      ...(token && { Authorization: `Bearer ${decryptedToken}` })
+      ...(token && { Authorization: `Bearer ${token.value}` })
     }
   }
 

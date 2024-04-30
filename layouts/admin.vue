@@ -18,13 +18,13 @@
         </v-list>
         <v-divider />
         <v-list color="transparent">
-          <v-list-item
+          <!-- <v-list-item
             prepend-icon="mdi-store-settings"
             color="primary"
             variant="plain"
             title="Quản lý cửa hàng"
             to="/admin/dashboard"
-            link />
+            link /> -->
           <v-list-item
             prepend-icon="mdi-shape"
             color="primary"
@@ -39,7 +39,7 @@
             title="Quản lý sản phẩm"
             to="/admin/product-management"
             link />
-          <v-list-item
+          <!-- <v-list-item
             prepend-icon="mdi-post"
             color="primary"
             variant="plain"
@@ -66,7 +66,7 @@
             variant="plain"
             title="Cài đặt"
             to="/admin/settings"
-            link />
+            link /> -->
         </v-list>
 
         <template #append>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ENCRYPT_SIGNATURE } from 'constant/common'
+  import CryptoJS from 'crypto-js'
   import { Code } from 'define/response-code'
 
   definePageMeta({
@@ -9,12 +10,12 @@
   const Form = ref()
   const loading = ref(false)
   const formData = reactive({
-    email: '',
+    phone_number: '',
     password: ''
   })
 
   const rules = {
-    email: [(v: any) => !!v || 'Email không được bỏ trống'],
+    phone_number: [(v: any) => !!v || 'Email không được bỏ trống'],
     password: [(v: any) => !!v || 'Mật khẩu không được bỏ trống']
   }
 
@@ -23,12 +24,11 @@
     if (!valid) return
     const res = await $axios.post($endpoint.login, formData)
     const { code, status, data } = res.data
-    if (status && code === Code.Success) {
-      $cookie('token', $crypto.encrypt(data.access_token, ENCRYPT_SIGNATURE))
-      $cookie('group_id', data.group_id)
-      $localStorage('set', 'permissions', data.permissions)
+    if (status && code === 201) {
+      $cookie('token', data.token)
+      $cookie('group_id', data.group.id)
+      $localStorage('set', 'permissions', data.group.permissions)
       navigateTo({ name: 'admin-dashboard' })
-      // $cookie('group_id', )
     }
   }
 </script>
@@ -42,9 +42,9 @@
             <v-card-title>Nanahouse</v-card-title>
             <v-card-item>
               <v-text-field
-                v-model="formData.email"
-                :rules="rules.email"
-                label="Email"
+                v-model="formData.phone_number"
+                :rules="rules.phone_number"
+                label="Số điện thoại"
                 variant="outlined"
                 class="mt-2"
                 :maxlength="225" />

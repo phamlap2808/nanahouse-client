@@ -70,25 +70,25 @@
     }
   }
 
-  onMounted(async () => {
-    await getListCategoryChild()
-    await getListProduct()
-  })
-
-  watch(category, async () => {
-    await getListProduct()
-  })
-
-  watch(currentPage, async () => {
-    await getListProduct()
-  })
-
-  watch(() => search.value, async () => {
-    await getListSearch()
-    // $lodash.debounce(async () => {
-    //   await getListSearch()
-    // }, 500)
-  })
+  // onMounted(async () => {
+  //   await getListCategoryChild()
+  //   await getListProduct()
+  // })
+  //
+  // watch(category, async () => {
+  //   await getListProduct()
+  // })
+  //
+  // watch(currentPage, async () => {
+  //   await getListProduct()
+  // })
+  //
+  // watch(() => search.value, async () => {
+  //   await getListSearch()
+  //   // $lodash.debounce(async () => {
+  //   //   await getListSearch()
+  //   // }, 500)
+  // })
 </script>
 <template>
   <div class="dashboard-page">

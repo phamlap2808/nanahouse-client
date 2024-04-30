@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { ISubCategory } from 'define/category'
-  import type { IProductCreate } from 'define/product'
+  import type { ICategoryAll } from 'define/category'
+  import type { IProductCreate, ProductOrigin } from 'define/product'
   import type { PropType } from 'vue'
   import { regexSlug } from 'constant/regex'
   import { Code } from 'define/response-code'
@@ -23,7 +23,8 @@
   const loading = ref(true)
   const uploadThumbnail = ref()
   const uploadListImage = ref()
-  const listCategory = ref<ISubCategory[]>()
+  const listCategory = ref<ICategoryAll[]>()
+  const listProductOrigin = ref<ProductOrigin[]>([])
   const availabilityList = [
     { id: 0, title: 'Hết hàng' },
     { id: 1, title: 'Còn hàng' }
@@ -62,10 +63,18 @@
   }
 
   const getListCategory = async () => {
-    const res = await $axios.get($endpoint.categoryList)
+    const res = await $axios.get($endpoint.categoryAll)
     const { status, code, data } = res.data
     if (status && code === Code.Success) {
-      listCategory.value = data.list_category
+      listCategory.value = data
+    }
+  }
+
+  const getListProductOrigin = async () => {
+    const res = await $axios.get($endpoint.productOriginList)
+    const { status, code, data } = res.data
+    if (status && code === Code.Success) {
+      listProductOrigin.value = data
     }
   }
 
@@ -102,7 +111,7 @@
           $toast().error(`${item.name} không được qua 5mb`)
           return
         }
-        formData.image.push(item)
+        formData.images.push(item)
       })
     }
   }
@@ -123,14 +132,13 @@
 
   const onRemoveListImage = (index: number) => {
     if (props.mode === 'create') {
-      formData.image.splice(index, 1)
+      formData.images.splice(index, 1)
     } else {
-      const form = new FormData()
-      formData.image.forEach(async (img: any, i: number) => {
+      formData.images.forEach(async (img: any, i: number) => {
         if (i === index) {
-          form.append('id', useRoute().params.id as string)
-          form.append(`delete_image[${img.id}]`, img.id)
-          const res = await $axios.post($endpoint.productEdit, form)
+          const res = await $axios.delete($endpoint.productDeleteImage.replace(':id', useRoute().params.id as string), {
+            data: { image: img }
+          })
           const { code, status } = res.data
           if (status && code === Code.Success) {
             emits('refetch')
@@ -155,6 +163,7 @@
   onMounted(async () => {
     loading.value = true
     await getListCategory()
+    await getListProductOrigin()
     loading.value = false
   })
 </script>
@@ -172,7 +181,7 @@
           class="my-2"
           :maxlength="225" />
         <v-text-field
-          v-model="formData.SKU"
+          v-model="formData.sku"
           :rules="rules.SKU"
           label="Mã sản phẩm"
           variant="outlined"
@@ -206,7 +215,7 @@
                 <div>Tải ảnh</div>
               </div>
             </div>
-            <div v-for="(image, index) in formData.image" :key="index" class="relative">
+            <div v-for="(image, index) in formData.images" :key="index" class="relative">
               <v-icon
                 size="small"
                 icon="mdi-close-circle"
@@ -230,8 +239,16 @@
           :items="listCategory"
           :rules="rules.category_id"
           label="Danh mục"
-          item-title="category_name"
-          item-value="category_id"
+          item-title="name"
+          item-value="_id"
+          variant="outlined"
+          class="mt-4" />
+        <v-select
+          v-model="formData.variant_id"
+          :items="listProductOrigin"
+          label="Biến thể"
+          item-title="title"
+          item-value="_id"
           variant="outlined"
           class="mt-4" />
         <v-text-field

@@ -9,7 +9,7 @@
 
   const loading = ref(true)
   let formData: IProductCreate = reactive({
-    SKU: '',
+    sku: '',
     title: '',
     description: '',
     category_id: null,
@@ -18,19 +18,21 @@
     quantity: null,
     availability: 1,
     thumbnail: '',
-    image: [],
+    images: [],
     og_title: '',
     og_description: '',
-    og_url: ''
+    og_url: '',
+    variant_id: ''
   })
 
   const getProductDetail = async () => {
     loading.value = true
-    const params = new URLSearchParams({ id: useRoute().params.id as string })
-    const res = await $axios.get($endpoint.productDetail, { params })
+    const res = await $axios.get($endpoint.productDetail.replace(':id', useRoute().params.id as string))
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       formData = data
+      formData.category_id = data.category.id
+      formData.variant_id = data.variant.id
     }
     loading.value = false
   }
@@ -38,8 +40,8 @@
   const onEditProduct = async (data: IProductCreate) => {
     const form = new FormData()
     form.append('id', useRoute().params.id as string)
-    if (data.SKU !== formData.SKU) {
-      form.append('SKU', data.SKU)
+    if (data.sku !== formData.sku) {
+      form.append('sku', data.sku)
     }
     if (data.title !== formData.title) {
       form.append('title', data.title)
@@ -74,13 +76,15 @@
     if (data.og_url !== formData.og_url) {
       form.append('og_url', data.og_url)
     }
-    if (data.image.length !== formData.image.length) {
-      data.image.forEach((item: any, index: number) => {
-        form.append(`image[${index}]`, item)
+    if (data.images.length !== formData.images.length) {
+      data.images.forEach((item: any, index: number) => {
+        if (typeof item === 'object') {
+          form.append(`images`, item)
+        }
       })
     }
 
-    const res = await $axios.post($endpoint.productEdit, form)
+    const res = await $axios.put($endpoint.productEdit.replace(':id', useRoute().params.id as string), form)
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Chỉnh sửa sản phẩm thành công')
@@ -99,3 +103,12 @@
     <ProductEditor v-if="!loading" :data="formData" mode="edit" @edit="onEditProduct" @refetch="getProductDetail" />
   </div>
 </template>
+
+<style scoped lang="scss">
+  .product-edit {
+    margin: 40px;
+    padding: 24px;
+    border-radius: 24px;
+    background-color: #fff;
+  }
+</style>

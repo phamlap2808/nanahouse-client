@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import type { IDataTableHeader } from 'define/data-table'
-  import type { IProduct } from 'define/product'
+  import type { IProductDetail } from 'define/product'
   import { Code } from 'define/response-code'
 
   definePageMeta({
     layout: 'admin'
   })
 
-  const listProduct = ref<IProduct[]>([])
+  const listProduct = ref<IProductDetail[]>([])
 
   const loading = ref(false)
   const currentPage = ref(1)
@@ -19,12 +19,17 @@
     {
       title: 'Mã sản phẩm',
       align: 'start',
-      key: 'SKU'
+      key: 'sku'
     },
     {
       title: 'Tên sản phẩm',
       align: 'start',
       key: 'title'
+    },
+    {
+      title: 'Biến thể',
+      align: 'start',
+      key: 'variant.title'
     },
     {
       title: 'Hình ảnh',
@@ -34,7 +39,7 @@
     {
       title: 'Danh mục',
       align: 'start',
-      key: 'category_name'
+      key: 'category.name'
     },
     {
       title: 'Giá gốc',
@@ -45,11 +50,6 @@
       title: 'Giá thành viên',
       align: 'start',
       key: 'friendly_price'
-    },
-    {
-      title: 'Khuyến mãi',
-      align: 'start',
-      key: 'discount'
     },
     {
       title: 'Số lượng',
@@ -78,7 +78,7 @@
     const res = await $axios.get($endpoint.productList, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      listProduct.value = data.products_list
+      listProduct.value = data.data
       currentPage.value = data.current_page
       totalPage.value = data.total_page
       totalPageRecord.value = data.total_page_record
@@ -88,26 +88,23 @@
   }
 
   const editItem = (data: any) => {
-    navigateTo({ name: 'admin-product-management-id-edit', params: { id: data.id } })
+    navigateTo({ name: 'admin-product-management-id-edit', params: { id: data._id } })
   }
 
   const deleteItem = async (data: any) => {
-    const params = new URLSearchParams({ id: data.id })
-    const res = await $axios.delete($endpoint.productDelete, { params })
-    const { code, status } = res.data
-    if (status && code === Code.Success) {
+    const res = await $axios.delete($endpoint.productDelete.replace(':id', data._id))
+    const { status, message } = res.data
+    if (status) {
       $toast().success('Xóa sản phẩm thành công')
       await getListProduct()
+    } else {
+      $toast().error(message)
     }
   }
 
   const redirectCreateProduct = () => {
     navigateTo({ name: 'admin-product-management-create' })
   }
-
-  // onMounted(() => {
-  //   getListProduct()
-  // })
 </script>
 
 <template>
@@ -140,8 +137,10 @@
           {{ item.raw.availability ? 'Còn hàng' : 'Hết hàng' }}
         </template>
         <template #item.actions="{ item }">
-          <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
-          <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+          <div class="w-12">
+            <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
+            <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+          </div>
         </template>
       </v-data-table-server>
     </div>

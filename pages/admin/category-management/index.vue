@@ -8,15 +8,21 @@
   })
 
   const listCategory = ref<ICategory[]>([])
-  const listCategoryChild = ref<ICategory[]>([])
   const categoryHome = ref<number[]>([])
   const showCreateModal = ref(false)
   const showEditModal = ref(false)
-  const selectionItem = ref<{ category_id: number; category_name: string; parent_id: number | null }>({
+  const selectionItem = ref<ICategory>({
     category_id: 0,
     category_name: '',
-    parent_id: null
+    parent: null,
+    sort: null
   })
+
+  const sortBy = ref('')
+  const listSort = ref([
+    { title: 'Không sắp xếp', value: '' },
+    { title: 'Trang Chủ', value: 'home' }
+  ])
 
   const loading = ref(false)
   const currentPage = ref(1)
@@ -26,16 +32,16 @@
 
   const headers: IDataTableHeader[] = [
     {
-      title: 'Mã danh mục',
+      title: 'Thứ tự trang chủ',
       align: 'start',
       sortable: false,
-      key: 'category_id'
+      key: 'sort'
     },
     {
       title: 'Danh mục cha',
       align: 'start',
       sortable: false,
-      key: 'parent_id'
+      key: 'parent'
     },
     {
       title: 'Tên danh mục',
@@ -61,14 +67,23 @@
   const getListCategory = async () => {
     loading.value = true
     const params = new URLSearchParams({
-      raw: '0',
       current_page: currentPage.value.toString(),
       page_record: totalPageRecord.value.toString()
     })
+    if (sortBy.value === 'home') {
+      params.append('home', 'true')
+    }
     const res = await $axios.get($endpoint.categoryList, { params })
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      listCategory.value = data.list_category
+      listCategory.value = data.data.map((item: any) => {
+        return {
+          category_id: item._id,
+          category_name: item.name,
+          parent: item.parent,
+          sort: item.sort
+        }
+      })
       currentPage.value = data.current_page
       totalPage.value = data.total_page
       totalPageRecord.value = data.total_page_record
@@ -77,35 +92,16 @@
     loading.value = false
   }
 
-  const getListCategoryChild = async () => {
-    loading.value = true
-    const params = new URLSearchParams({
-      raw: '2'
-    })
-    const res = await $axios.get($endpoint.categoryList, { params })
-    const { code, status, data } = res.data
-    if (status && code === Code.Success) {
-      listCategoryChild.value = data
-    }
-    loading.value = false
-  }
-
   const editItem = (data: any) => {
     selectionItem.value.category_id = data.category_id
     selectionItem.value.category_name = data.category_name
-    selectionItem.value.parent_id = data.parent_id
+    selectionItem.value.parent = data.parent
+    selectionItem.value.sort = data.sort
     toggleEditModal(true)
   }
 
-  const findParent = (id: number | null) => {
-    if (!id) return 'Danh mục gốc'
-    const item = listCategory.value.find((item) => item.category_id === id)
-    return item?.category_name
-  }
-
   const deleteItem = async (data: any) => {
-    const params = new URLSearchParams({ id: data.category_id })
-    const res = await $axios.delete($endpoint.categoryDelete, { params })
+    const res = await $axios.delete($endpoint.categoryDelete.replace(':id', data.category_id.toString()))
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Xóa danh mục thành công')
@@ -113,48 +109,22 @@
     }
   }
 
-  const getListCategoryHome = async () => {
-    categoryHome.value = []
-    const res = await $axios.get($endpoint.listCategoryHome)
-    const { code, status, data } = res.data
-    if (status && code === Code.Success) {
-      data.forEach((item: { category_id: number }) => {
-        categoryHome.value.push(item.category_id)
-      })
-    }
-  }
-
-  const HandleListCategoryHome = async () => {
-    const data = {
-      updateStt: categoryHome.value
-    }
-    const res = await $axios.post($endpoint.editCategoryHome, data)
-    const { code, status } = res.data
-    if (status && code === Code.Success) {
-      $toast().success('Cập nhật danh mục trang chủ thành công')
-    }
-  }
-
   const createCategorySuccess = async () => {
     showCreateModal.value = false
     await getListCategory()
-    await fetchData()
   }
 
-  const fetchData = async () => {
-    await getListCategoryChild()
-    await getListCategoryHome()
-  }
-
-  onMounted(async () => {
-    await fetchData()
+  watch(sortBy, async () => {
+    await getListCategory()
   })
+
 </script>
 
 <template>
   <div class="category-page m-10 px-4 py-10 bg-white rounded-3xl">
     <h1>Quản lý danh mục</h1>
-    <div class="flex justify-end mb-4">
+    <div class="flex justify-between mb-4">
+      <div class="min-w-100"><v-select v-model="sortBy" :items="listSort" label="Sắp xếp" /></div>
       <v-btn type="submit" variant="outlined" class="text-center" @click="toggleCreateModal"> Tạo danh mục</v-btn>
     </div>
     <div v-loading="loading" class="min-h-100">
@@ -168,27 +138,14 @@
         :show-current-page="true"
         :items-length="totalRecord"
         @update:options="getListCategory">
-        <template #item.parent_id="{ item }">
-          {{ findParent(item.raw.parent_id) }}
+        <template #item.parent="{ item }">
+          {{ item.raw.parent ? item.raw.parent.name : 'Danh mục gốc'  }}
         </template>
         <template #item.actions="{ item }">
           <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
           <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
         </template>
       </v-data-table-server>
-    </div>
-
-    <h1>Quản lý trang chủ</h1>
-    <v-select
-      v-model="categoryHome"
-      :flat="true"
-      :items="listCategoryChild"
-      :chips="true"
-      :multiple="true"
-      item-title="category_name"
-      item-value="category_id" />
-    <div class="flex w-full justify-end">
-      <v-btn @click="HandleListCategoryHome">Cập nhật trang chủ</v-btn>
     </div>
 
     <admin-category-dialog-create-category

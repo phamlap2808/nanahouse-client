@@ -5,17 +5,20 @@ export default {
   verificationEmail: '/auth/verification-email',
 
   // category
-  categoryCreate: '/admin/category/create',
-  categoryList: '/category/list',
-  categoryEdit: '/admin/category/edit',
-  categoryDelete: '/admin/category/delete',
+  categoryCreate: '/category',
+  categoryList: '/category',
+  categoryEdit: '/category/:id',
+  categoryDelete: '/category/:id',
+  categoryAll: '/category/all',
 
   // product
-  productCreate: '/admin/products/create',
-  productList: '/products/list',
-  productEdit: '/admin/products/edit',
-  productDelete: '/admin/products/delete',
-  productDetail: '/products/detail',
+  productCreate: '/product',
+  productList: '/product',
+  productOriginList: '/product/origin',
+  productEdit: '/product/:id',
+  productDelete: '/product/:id',
+  productDetail: '/product/:id',
+  productDeleteImage: '/product/:id/image',
 
   // users
   usersList: '/user/list',

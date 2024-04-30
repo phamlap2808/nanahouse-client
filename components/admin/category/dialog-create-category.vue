@@ -21,7 +21,8 @@
 
   const formData = reactive({
     name: '',
-    parent_id: null
+    parent_id: null,
+    sort: null
   })
 
   const rules = {
@@ -30,13 +31,15 @@
 
   const getListCategory = async () => {
     loading.value = true
-    const params = new URLSearchParams({
-      raw: '1'
-    })
-    const res = await $axios.get($endpoint.categoryList, { params })
+    const res = await $axios.get($endpoint.categoryAll)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
-      listCategory.value = data
+      listCategory.value = data.map((item: any) => {
+        return {
+          category_id: item._id,
+          category_name: item.name
+        }
+      })
     }
     loading.value = false
   }
@@ -46,7 +49,7 @@
     if (!valid) return
     const res = await $axios.post($endpoint.categoryCreate, formData)
     const { code, status, data } = res.data
-    if (status && code === Code.Success) {
+    if (status && code === 201) {
       $toast().success('Tạo danh mục thành công')
       emits('refecth')
     }
@@ -84,6 +87,13 @@
             item-value="category_id"
             variant="outlined"
             class="mt-4" />
+          <v-text-field
+            v-model="formData.sort"
+            :rules="rules.sort"
+            label="Thứ tự"
+            variant="outlined"
+            class="mt-2"
+            type="number"/>
         </v-form>
       </div>
     </template>
