@@ -15,7 +15,7 @@
       required: true
     },
     itemEdit: {
-      type: Object as PropType<{ category_id: number; category_name: string; parent: any, sort: number }>,
+      type: Object as PropType<{ category_id: number; category_name: string; parent: any; sort: number | null }>,
       required: true
     }
   })
@@ -55,15 +55,15 @@
     const { valid } = await Form.value.validate()
     if (!valid) return
     const data = { name: formData.category_name, sort: formData.sort }
-    if (props.itemEdit.parent_id !== formData.parent_id) {
+    if (props.itemEdit.parent !== formData.parent_id) {
       Object.assign(data, { parent_id: formData.parent_id })
     }
     const res = await $axios.put($endpoint.categoryEdit.replace(':id', formData.category_id.toString()), data)
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Chỉnh sửa danh mục thành công')
-      props.toggleOpen(false)
       emits('refecth')
+      props.toggleOpen(false)
     }
   }
 
@@ -98,13 +98,7 @@
             item-value="category_id"
             variant="outlined"
             class="mt-4" />
-          <v-text-field
-            v-model="formData.sort"
-            :rules="rules.sort"
-            label="Thứ tự"
-            variant="outlined"
-            class="mt-2"
-            type="number"/>
+          <v-text-field v-model="formData.sort" label="Thứ tự" variant="outlined" class="mt-2" type="number" />
         </v-form>
       </div>
     </template>

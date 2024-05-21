@@ -11,6 +11,7 @@
   const categoryHome = ref<number[]>([])
   const showCreateModal = ref(false)
   const showEditModal = ref(false)
+  const showDeleteModal = ref(false)
   const selectionItem = ref<ICategory>({
     category_id: 0,
     category_name: '',
@@ -63,6 +64,9 @@
   const toggleEditModal = (value: boolean) => {
     showEditModal.value = value
   }
+  const toggleDeleteModal = (value: boolean) => {
+    showDeleteModal.value = value
+  }
 
   const getListCategory = async () => {
     loading.value = true
@@ -88,16 +92,27 @@
       totalPage.value = data.total_page
       totalPageRecord.value = data.total_page_record
       totalRecord.value = data.total_record
+      selectionItem.value = {
+        category_id: 0,
+        category_name: '',
+        parent: null,
+        sort: null
+      }
     }
     loading.value = false
   }
 
-  const editItem = (data: any) => {
+  const handleSelectionData = (data: any, mode: string) => {
     selectionItem.value.category_id = data.category_id
     selectionItem.value.category_name = data.category_name
     selectionItem.value.parent = data.parent
     selectionItem.value.sort = data.sort
-    toggleEditModal(true)
+    if (mode === 'edit') {
+      toggleEditModal(true)
+    }
+    if (mode === 'delete') {
+      toggleDeleteModal(true)
+    }
   }
 
   const deleteItem = async (data: any) => {
@@ -105,6 +120,7 @@
     const { code, status } = res.data
     if (status && code === Code.Success) {
       $toast().success('Xóa danh mục thành công')
+      toggleDeleteModal(false)
       await getListCategory()
     }
   }
@@ -117,7 +133,6 @@
   watch(sortBy, async () => {
     await getListCategory()
   })
-
 </script>
 
 <template>
@@ -139,11 +154,11 @@
         :items-length="totalRecord"
         @update:options="getListCategory">
         <template #item.parent="{ item }">
-          {{ item.raw.parent ? item.raw.parent.name : 'Danh mục gốc'  }}
+          {{ item.raw.parent ? item.raw.parent.name : 'Danh mục gốc' }}
         </template>
         <template #item.actions="{ item }">
-          <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
-          <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+          <v-icon size="small" class="me-2" icon="mdi-pencil" @click="handleSelectionData(item.raw, 'edit')" />
+          <v-icon size="small" icon="mdi-delete" @click="handleSelectionData(item.raw, 'delete')" />
         </template>
       </v-data-table-server>
     </div>
@@ -159,5 +174,18 @@
       :toggle-open="toggleEditModal"
       :item-edit="selectionItem"
       @refecth="createCategorySuccess" />
+    <dialog-base v-if="showDeleteModal" :is-open="showDeleteModal" :toggle-open="toggleDeleteModal">
+      <template #main>
+        <div>
+          <p>Bạn có chắc chắn muốn xóa danh mục {{ selectionItem.category_name }} không?</p>
+        </div>
+      </template>
+      <template #footer>
+        <div class="flex mt-4 gap-4 justify-center items-center">
+          <v-btn type="submit" variant="outlined" @click="toggleDeleteModal(false)">Hủy</v-btn>
+          <v-btn type="submit" variant="outlined" @click="deleteItem(selectionItem)">Xác nhận</v-btn>
+        </div>
+      </template>
+    </dialog-base>
   </div>
 </template>

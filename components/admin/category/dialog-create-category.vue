@@ -87,13 +87,7 @@
             item-value="category_id"
             variant="outlined"
             class="mt-4" />
-          <v-text-field
-            v-model="formData.sort"
-            :rules="rules.sort"
-            label="Thứ tự"
-            variant="outlined"
-            class="mt-2"
-            type="number"/>
+          <v-text-field v-model="formData.sort" label="Thứ tự" variant="outlined" class="mt-2" type="number" />
         </v-form>
       </div>
     </template>

@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev -p 8000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -34,7 +34,7 @@
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
     "typescript": "^5.1.6",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue3-toastify": "^0.2.1"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",

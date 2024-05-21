@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import type { ICategoryNode } from 'define/category'
-  import type { IProduct } from 'define/product'
+  import type { ICategoryNode } from '../../define/category'
+  import type { IProduct } from '../../define/product'
+  import { Code } from '../../define/response-code'
   import { useCategoryStore } from '../../store'
-  import { Code } from 'define/response-code'
 
   const listCategory = ref<ICategoryNode[]>([])
   const listProduct = ref<IProduct[]>([])
@@ -13,33 +13,27 @@
   const totalRecord = ref(0)
 
   const categorySelected = computed({
-    get(): { category_id: number; category_name: string } {
+    get(): { _id: number; name: string } {
       return useCategoryStore().getCategorySelected
     },
-    set(val: { category_id: number; category_name: string }) {
+    set(val: { _id: number; name: string }) {
       useCategoryStore().setCategorySelected(val)
     }
   })
 
   const getListCategory = async () => {
-    const params = new URLSearchParams({
-      raw: '1'
-    })
-    const res = await $axios.get($endpoint.categoryList, { params })
+    const res = await $axios.get($endpoint.categoryMenu)
     const { code, status, data } = res.data
     if (status && code === Code.Success) {
       listCategory.value = data
-      categorySelected.value = {
-        category_id: data[0].sub_category[0].sub_category_id,
-        category_name: data[0].sub_category[0].sub_category_name
-      }
+      categorySelected.value = { _id: data[0]._id, name: data[0].name }
     }
   }
 
-  const getProductByCategory = async (categoryId: number) => {
+  const getProductByCategory = async (categoryId: string) => {
     loading.value = true
     const params = new URLSearchParams({
-      category_id: categoryId.toString(),
+      category: categoryId,
       current_page: currentPage.value.toString(),
       page_record: totalPageRecord.value.toString()
     })
@@ -47,7 +41,8 @@
       const res = await $axios.get($endpoint.productList, { params })
       const { code, status, data } = res.data
       if (status && code === Code.Success) {
-        listProduct.value = data.products_list
+        listProduct.value.length = 0
+        listProduct.value = data.data
         currentPage.value = data.current_page
         totalPage.value = data.total_page
         totalPageRecord.value = data.total_page_record
@@ -59,7 +54,7 @@
   }
 
   watch(
-    () => categorySelected.value.category_id,
+    () => categorySelected.value._id,
     (id) => {
       if (id) {
         getProductByCategory(id)
@@ -67,13 +62,13 @@
     }
   )
 
-  watch(currentPage, async () => {
-    await getListProduct(categorySelected.value.category_id)
-  })
+  // watch(currentPage, async () => {
+  //   await getProductByCategory(categorySelected.value._id)
+  // })
 
   onMounted(async () => {
     await getListCategory()
-    await getProductByCategory(categorySelected.value.category_id)
+    await getProductByCategory(categorySelected.value._id)
   })
 </script>
 
@@ -85,26 +80,22 @@
       <category-tree :tree-data="listCategory" />
     </v-col>
     <v-col xs="12" sm="12" md="8" lg="9">
-      <h2 class="mb-10">{{ categorySelected.category_name }}</h2>
+      <h2 class="mb-10">{{ categorySelected.name }}</h2>
       <div v-loading="loading" class="min-h-100 flex flex-col gap-4">
-        <div v-if="!loading" class="flex flex-wrap">
+        <div v-if="!loading" class="flex flex-wrap gap-4">
           <div v-for="product in listProduct" :key="product.id">
             <ProductCard
-              :category-id="product.category_id"
-              :category-name="product.category_name"
+              :category-id="product.category._id"
+              :category-name="product.category.name"
               :product-name="product.title"
-              :product-id="product.id"
+              :product-id="product._id"
               :friendly-price="product.friendly_price"
               :thumbnail="product.thumbnail"
               :original-price="product.origin_price"
               :slug="product.og_url" />
           </div>
         </div>
-        <v-pagination
-          v-model="currentPage"
-          :length="totalPage"
-          :total-visible="7"
-        />
+        <v-pagination v-model="currentPage" :length="totalPage" :total-visible="7" />
       </div>
     </v-col>
   </v-row>

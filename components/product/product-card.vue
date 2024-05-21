@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const props = defineProps({
     productId: {
-      type: Number,
+      type: String,
       required: true
     },
     productName: {
@@ -13,7 +13,7 @@
       required: true
     },
     categoryId: {
-      type: Number,
+      type: String,
       required: true
     },
     categoryName: {

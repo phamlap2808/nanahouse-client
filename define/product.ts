@@ -1,5 +1,5 @@
 interface IProduct {
-  id: number
+  _id: string
   category_id: number
   category_name: string
   origin_price: number

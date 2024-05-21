@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { ICategoryNode } from 'define/category'
+  import type { ICategoryNode } from '../../define/category'
   import TreeView from './tree-view.vue'
 
   const props = defineProps({

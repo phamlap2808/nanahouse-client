@@ -14,6 +14,11 @@
   const totalPage = ref(0)
   const totalPageRecord = ref(10)
   const totalRecord = ref(0)
+  const selectionItem = ref({
+    _id: '',
+    title: ''
+  })
+  const showDeleteModal = ref(false)
 
   const headers: IDataTableHeader[] = [
     {
@@ -69,6 +74,10 @@
     }
   ]
 
+  const toggleDeleteModal = (value: boolean, data: any) => {
+    selectionItem.value = data
+    showDeleteModal.value = value
+  }
   const getListProduct = async () => {
     loading.value = true
     const params = new URLSearchParams({
@@ -96,6 +105,7 @@
     const { status, message } = res.data
     if (status) {
       $toast().success('Xóa sản phẩm thành công')
+      toggleDeleteModal(false, { _id: '', title: '' })
       await getListProduct()
     } else {
       $toast().error(message)
@@ -139,10 +149,23 @@
         <template #item.actions="{ item }">
           <div class="w-12">
             <v-icon size="small" class="me-2" icon="mdi-pencil" @click="editItem(item.raw)" />
-            <v-icon size="small" icon="mdi-delete" @click="deleteItem(item.raw)" />
+            <v-icon size="small" icon="mdi-delete" @click="toggleDeleteModal(true, item.raw)" />
           </div>
         </template>
       </v-data-table-server>
+      <dialog-base v-if="showDeleteModal" :is-open="showDeleteModal" :toggle-open="toggleDeleteModal">
+        <template #main>
+          <div>
+            <p>Bạn có chắc chắn muốn xóa sản phẩm {{ selectionItem.title }} không?</p>
+          </div>
+        </template>
+        <template #footer>
+          <div class="flex mt-4 gap-4 justify-center items-center">
+            <v-btn type="submit" variant="outlined" @click="toggleDeleteModal(false)">Hủy</v-btn>
+            <v-btn type="submit" variant="outlined" @click="deleteItem(selectionItem)">Xác nhận</v-btn>
+          </div>
+        </template>
+      </dialog-base>
     </div>
   </div>
 </template>

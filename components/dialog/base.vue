@@ -75,7 +75,7 @@
         :height="height"
         custom-attribute="base-dialog"
         @click:outside="toggleOpen(false)">
-        <v-card>
+        <v-card class="p-4">
           <v-card-title>
             <div class="flex justify-between item-center">
               <div class="title">

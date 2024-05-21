@@ -1,8 +1,8 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
-import axios from 'axios'
 import { ENCRYPT_SIGNATURE } from 'constant/common'
-import CryptoJS from 'crypto-js'
 import { Code } from 'define/response-code'
+import axios from 'axios'
+import CryptoJS from 'crypto-js'
 
 const BASE_API = import.meta.env.VITE_APP_BASE_URL || 'http://54.251.104.42:8000/api'
 

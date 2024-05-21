@@ -10,6 +10,7 @@ export default {
   categoryEdit: '/category/:id',
   categoryDelete: '/category/:id',
   categoryAll: '/category/all',
+  categoryMenu: '/category/menu',
 
   // product
   productCreate: '/product',
@@ -44,7 +45,7 @@ export default {
   permissionList: '/permission/list',
 
   // home
-  listCategoryHome: '/home',
+  listCategoryHome: '/category/home',
   editCategoryHome: '/admin/home/edit',
 
   // order

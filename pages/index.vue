@@ -1,9 +1,9 @@
 <script setup lang="ts">
+  import type { IBlog } from '../define/blog'
   import type { ICategoryHome } from '../define/category'
-  import type { IBlog } from 'define/blog'
   import ProductCard from '../components/product/product-card.vue'
-  import { Code } from 'define/response-code'
-  import { useSystemStore } from '@/store'
+  import { Code } from '../define/response-code'
+  import { useSystemStore } from '../store'
 
   const systemStore = useSystemStore()
   const loading = ref(true)
@@ -28,20 +28,11 @@
     }
   }
 
-  getCarousel()
   getListCategoryHome()
-
-  // onMounted(() => {
-  //   loading.value = true
-  //   getCarousel()
-  //   getListCategoryHome()
-  //   loading.value = false
-  // })
 </script>
 
 <template>
   <div class="home-page">
-    <!--    home-carousel-->
     <div v-if="listCarousel[0]" class="home-page__carousel">
       <v-carousel :touch="true">
         <template #prev="{ props }">
@@ -57,19 +48,18 @@
         <v-carousel-item v-for="item in listCarousel" :key="item.id" :src="item.thumbnail" aspect-ratio="4/3" cover />
       </v-carousel>
     </div>
-    <!--    home-category-->
     <div class="home-page__category mt-15">
-      <v-sheet v-for="category in listHomeCategory" :key="category.category_id" class="mb-15">
-        <div v-if="category.list_products.length > 0">
-          <h3 class="mb-4">{{ category.category_name }}</h3>
+      <v-sheet v-for="category in listHomeCategory" :key="category._id" class="mb-15">
+        <div v-if="category.products && category.products.length > 0">
+          <h3 class="mb-4">{{ category.name }}</h3>
           <v-slide-group prev-icon="mdi-chevron-left-circle" next-icon="mdi-chevron-right-circle" show-arrows>
-            <v-slide-group-item v-for="product in category.list_products" :key="product.id">
+            <v-slide-group-item v-for="product in category.products" :key="product.id">
               <ProductCard
                 class="mr-4"
-                :category-id="category.category_id"
-                :category-name="category.category_name"
-                :product-name="product.product_name"
-                :product-id="product.id"
+                :category-id="category._id"
+                :category-name="category.name"
+                :product-name="product.title"
+                :product-id="product._id"
                 :friendly-price="product.friendly_price"
                 :thumbnail="product.thumbnail"
                 :original-price="product.origin_price"

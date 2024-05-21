@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 export const useCategoryStore = defineStore('category', {
   state: () => ({
     categorySelected: {
-      category_id: 0,
-      category_name: ''
+      _id: 0,
+      name: ''
     }
   }),
   getters: {
